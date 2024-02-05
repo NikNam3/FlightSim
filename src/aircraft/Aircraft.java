@@ -16,8 +16,8 @@ public abstract class Aircraft extends Entity {
     private float velocity;
 
 
-    public Aircraft(int id, Vec3 relPos, Vec3 relRot) {
-        super(id, relPos, relRot);
+    public Aircraft(Vec3 relPos, Vec3 relRot) {
+        super(relPos, relRot);
     }
 
     /**
@@ -48,4 +48,5 @@ public abstract class Aircraft extends Entity {
     public float getVelocity() {
         return velocity;
     }
+
 }

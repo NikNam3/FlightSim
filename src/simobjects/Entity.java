@@ -16,15 +16,10 @@ import java.util.List;
  * @since       a1.0
  */
 public class Entity {
-    public Entity(int id, Vec3 relPos, Vec3 relRot) {
-        this.id = id;
+    public Entity(Vec3 relPos, Vec3 relRot) {
         this.relPos = relPos;
         this.relRot = relRot;
     }
-    /**
-     * ID of the Entity
-     */
-    private int id;
     /**
      * Position relative to the Parent Entity or to (0,0,0) if no Parent exists
      */
@@ -56,5 +51,12 @@ public class Entity {
     }
     public void setRelRot(Vec3 rotation) {
         this.relRot = rotation;
+    }
+    public void setRelPos(Vec3 position) {
+        this.relPos = position;
+    }
+
+    public Vec3 getRelRotation() {
+        return relRot;
     }
 }

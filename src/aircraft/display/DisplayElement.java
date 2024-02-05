@@ -13,24 +13,16 @@ import simobjects.Entity;
  * @since       a1.0
  */
 public class DisplayElement extends Entity {
-    public DisplayElement(int id, Vec3 relPos, Mesh mesh, int z) {
-        super(id, relPos, Vec3.zero());
+    public DisplayElement(Mesh mesh) {
+        super(Vec3.zero(), Vec3.zero()); // Sets the rel- Position and Rotation to (0,0,0)
         this.setMesh(mesh);
-        this.z = z;
     }
-    /**
-     * How far in front the Element is
-     * The higher the Z value the further in front the Element is
-     * z = 0 is the background
-     */
-    private final int z;
-
     /**
      * sets the Rotation of the Background
      * @param rotation is the new Rotation of the Background in degrees (0°-360°)
      */
     protected void setRotation(float rotation) {
-         setRelRot(new Vec3(0,0, rotation));
+         setRelRot(new Vec3(0,0, rotation)); // TODO look into this
     }
 
 

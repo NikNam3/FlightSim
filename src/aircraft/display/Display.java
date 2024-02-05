@@ -7,12 +7,13 @@ import simobjects.Entity;
 import java.util.List;
 
 public abstract class Display extends Entity {
-    public Display(int id, Vec3 relPos, Vec3 relRot, List<DisplayElement> displayElements) {
-        super(id, relPos, relRot);
-        this.displayElements = displayElements;
+    public Display(Vec3 relPos, Vec3 relRot) {
+        super(relPos, relRot);
     }
     /**
-     * A List of one to multiple DisplayElements
+     * A List of the DisplayElements
+     * The List is in display order from back to front meaning the first Element with index 0 is the Background
+     * and the last Element is the Foreground
      */
     private List<DisplayElement> displayElements;
     /**
@@ -21,7 +22,8 @@ public abstract class Display extends Entity {
      */
     protected Aircraft aircraft;
     /**
-     * Updates the Display
+     * Updates the Display and all Display elements
+     * Gets Overridden by every DisplayType
      */
     public abstract void Update();
     /**
@@ -29,7 +31,9 @@ public abstract class Display extends Entity {
      * @param displayElement is the DisplayElement to add
      */
     public void addDisplayElement(DisplayElement displayElement) {
-        displayElements.add(displayElement);
+        displayElements.add(displayElement); // Safes the DisplayElement inside this Display for later use
+
+        displayElement.setParent(this); // Handles the Parent Child Relationship considering the Position and Rotation of the Display and its Elements
     }
     /**
      * Returns a DisplayElement from the Display
