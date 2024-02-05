@@ -1,5 +1,6 @@
 package aircraft;
 
+import math.Vec3;
 import simobjects.Entity;
 
 /**
@@ -12,6 +13,13 @@ import simobjects.Entity;
  */
 
 public abstract class Aircraft extends Entity {
+    private float velocity;
+
+
+    public Aircraft(int id, Vec3 relPos, Vec3 relRot) {
+        super(id, relPos, relRot);
+    }
+
     /**
      * Updates visuals and Physics of the Aircraft
      * @param deltaTime is the time since the last Update call
@@ -22,13 +30,22 @@ public abstract class Aircraft extends Entity {
 
     /**
      * Updates the Physics of the Aircraft
+     * This method has a Fixed Update Interval
      * @param deltaTime is the time since the last call
      */
     abstract void updatePhysics(float deltaTime);
 
     /**
      * Reads the Inputs
+     * This method gets called every Frame
      * @param deltaTime is the time since the last call
      */
     abstract void updateInputs(float deltaTime);
+
+    /**
+     * @return the Velocity of the Aircraft
+     */
+    public float getVelocity() {
+        return velocity;
+    }
 }

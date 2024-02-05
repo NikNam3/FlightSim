@@ -16,6 +16,11 @@ import java.util.List;
  * @since       a1.0
  */
 public class Entity {
+    public Entity(int id, Vec3 relPos, Vec3 relRot) {
+        this.id = id;
+        this.relPos = relPos;
+        this.relRot = relRot;
+    }
     /**
      * ID of the Entity
      */
@@ -28,9 +33,7 @@ public class Entity {
      * Rotation relative to the Parent Entity or to (0,0,0) if no Parent exists
      */
     private Vec3 relRot;
-    /**
-     * The Mesh of the Entity
-     */
+
     private Mesh mesh;
     /**
      * All Child Entity's
@@ -40,6 +43,7 @@ public class Entity {
 
     /**
      * Sets the Parent of this Entity to "entity"
+     * This is done by adding this Entity to the children of "entity"
      * @param entity is the new Parent of this Entity
      */
     public void setParent(Entity entity) {
