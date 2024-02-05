@@ -1,11 +1,14 @@
 package aircraft.display;
 
 import aircraft.Aircraft;
+import math.Vec3;
+import simobjects.Entity;
 
 import java.util.List;
 
-public abstract class Display {
-    public Display(List<DisplayElement> displayElements) {
+public abstract class Display extends Entity {
+    public Display(int id, Vec3 relPos, Vec3 relRot, List<DisplayElement> displayElements) {
+        super(id, relPos, relRot);
         this.displayElements = displayElements;
     }
     /**

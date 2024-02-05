@@ -49,4 +49,12 @@ public class Entity {
     public void setParent(Entity entity) {
 
     }
+
+
+    public void setMesh(Mesh mesh) {
+        this.mesh = mesh;
+    }
+    public void setRelRot(Vec3 rotation) {
+        this.relRot = rotation;
+    }
 }

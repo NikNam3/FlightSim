@@ -3,24 +3,15 @@ package aircraft.display;
 
 import graphics.Mesh;
 import math.UnitConversion;
+import math.Vec3;
+
+import java.util.List;
 
 public class AirspeedIndicator extends Display {
-    /**
-     * Creates a new AirspeedIndicator
-     */
-    public AirspeedIndicator() {
-        super(null);
-        addDisplayElement(
-                new DisplayElement(
-                        new Mesh(
+    public AirspeedIndicator(int id, Vec3 relPos, Vec3 relRot) {
+        super(id, relPos, relRot, null);
 
-                        ), 0));
-        addDisplayElement(
-                new DisplayElement(
-                        new Mesh(
-
-                        ), 1));
-
+        DisplayElement background = new DisplayElement()
     }
 
     /**
@@ -30,7 +21,7 @@ public class AirspeedIndicator extends Display {
     public void Update() {
         getDisplayElement(1).setRotation(
                 UnitConversion.mpsToKnots(
-                        aircraft.getVelocity()));
+                        aircraft.getVelocity()) * 1.9565f);
     }
 
 }
