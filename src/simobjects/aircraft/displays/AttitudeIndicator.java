@@ -1,6 +1,8 @@
 package simobjects.aircraft.displays;
 
 import graphics.Mesh;
+import math.Mat3;
+import math.Math3D;
 import math.Vec3;
 
 /**
@@ -16,7 +18,7 @@ import math.Vec3;
  */
 
 public class AttitudeIndicator extends Display {
-    public AttitudeIndicator(Vec3 relPos, Vec3 relRot, Mesh backgroundMesh, Mesh pointerMesh) {
+    public AttitudeIndicator(Vec3 relPos, Mat3 relRot, Mesh backgroundMesh, Mesh pointerMesh) {
         super(relPos, relRot);
 
         DisplayElement background = new DisplayElement(backgroundMesh);
@@ -33,10 +35,16 @@ public class AttitudeIndicator extends Display {
      */
     @Override
     public void Update() {
-        getDisplayElement(0).setRelRot(new Vec3(
-                -aircraft.getRelRotation().x,
-                -aircraft.getRelRotation().y,
-                -aircraft.getRelRotation().z)); // TODO add the correct rotation
+        assert Math3D.rotationMatrixToEulerAngles(aircraft.getRelRotation()) != null; // Make sure Math3D funciton returns a value
+
+        getDisplayElement(0).setRelRot(
+                Math3D.eulerAnglesToRotationMatrix(new Vec3(
+                -Math3D.rotationMatrixToEulerAngles(aircraft.getRelRotation()).x,
+                -Math3D.rotationMatrixToEulerAngles(aircraft.getRelRotation()).y,
+                -Math3D.rotationMatrixToEulerAngles(aircraft.getRelRotation()).z
+                )
+
+        )); // TODO add the correct rotation
 
         // Sets the Rotation of the Gyro to zero
     }

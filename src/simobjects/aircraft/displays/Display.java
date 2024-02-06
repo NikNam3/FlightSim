@@ -1,5 +1,6 @@
 package simobjects.aircraft.displays;
 
+import math.Mat3;
 import simobjects.aircraft.Aircraft;
 import math.Vec3;
 import simobjects.Entity;
@@ -7,7 +8,7 @@ import simobjects.Entity;
 import java.util.List;
 
 public abstract class Display extends Entity {
-    public Display(Vec3 relPos, Vec3 relRot) {
+    public Display(Vec3 relPos, Mat3 relRot) {
         super(relPos, relRot);
     }
     /**

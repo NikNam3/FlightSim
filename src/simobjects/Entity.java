@@ -2,6 +2,7 @@ package simobjects;
 
 // import statements
 import graphics.Mesh;
+import math.Mat3;
 import math.Vec3;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  * @since       a1.0
  */
 public class Entity {
-    public Entity(Vec3 relPos, Vec3 relRot) {
+    public Entity(Vec3 relPos, Mat3 relRot) {
         this.relPos = relPos;
         this.relRot = relRot;
     }
@@ -27,7 +28,7 @@ public class Entity {
     /**
      * Rotation relative to the Parent Entity or to (0,0,0) if no Parent exists
      */
-    private Vec3 relRot;
+    private Mat3 relRot;
 
     private Mesh mesh;
     /**
@@ -49,14 +50,14 @@ public class Entity {
     public void setMesh(Mesh mesh) {
         this.mesh = mesh;
     }
-    public void setRelRot(Vec3 rotation) {
+    public void setRelRot(Mat3 rotation) {
         this.relRot = rotation;
     }
     public void setRelPos(Vec3 position) {
         this.relPos = position;
     }
 
-    public Vec3 getRelRotation() {
+    public Mat3 getRelRotation() {
         return relRot;
     }
     public Vec3 getRelPosition() {

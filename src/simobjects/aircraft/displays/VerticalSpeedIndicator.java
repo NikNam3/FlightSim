@@ -1,6 +1,7 @@
 package simobjects.aircraft.displays;
 
 import graphics.Mesh;
+import math.Mat3;
 import math.Vec3;
 
 /**
@@ -16,7 +17,7 @@ import math.Vec3;
  */
 
 public class VerticalSpeedIndicator extends Display {
-    public VerticalSpeedIndicator(Vec3 relPos, Vec3 relRot, Mesh backgroundMesh, Mesh pointerMesh) {
+    public VerticalSpeedIndicator(Vec3 relPos, Mat3 relRot, Mesh backgroundMesh, Mesh pointerMesh) {
         super(relPos, relRot);
 
         DisplayElement background = new DisplayElement(backgroundMesh);

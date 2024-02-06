@@ -2,9 +2,9 @@ package simobjects.aircraft.displays;
 
 
 import graphics.Mesh;
+import math.Mat3;
 import math.UnitConversion;
 import math.Vec3;
-import simobjects.aircraft.Aircraft;
 
 /**
  * The AirspeedIndicator class handles the Logic behind the AirspeedIndicator Display
@@ -18,7 +18,7 @@ import simobjects.aircraft.Aircraft;
  * @since       a1.0
  */
 public class AirspeedIndicator extends Display {
-    public AirspeedIndicator(Vec3 relPos, Vec3 relRot, Mesh backgroundMesh, Mesh pointerMesh) {
+    public AirspeedIndicator(Vec3 relPos, Mat3 relRot, Mesh backgroundMesh, Mesh pointerMesh) {
         super(relPos, relRot);
 
         DisplayElement background = new DisplayElement(backgroundMesh);

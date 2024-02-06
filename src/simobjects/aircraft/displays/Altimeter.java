@@ -1,6 +1,7 @@
 package simobjects.aircraft.displays;
 
 import graphics.Mesh;
+import math.Mat3;
 import math.UnitConversion;
 import math.Vec3;
 
@@ -15,7 +16,7 @@ import math.Vec3;
  * @author      Nikolas Kühnlein
  */
 public class Altimeter extends Display {
-    public Altimeter(Vec3 relPos, Vec3 relRot, Mesh backgroundMesh, Mesh longestPointerMesh, Mesh longPointerMesh, Mesh shortPointerMesh) {
+    public Altimeter(Vec3 relPos, Mat3 relRot, Mesh backgroundMesh, Mesh longestPointerMesh, Mesh longPointerMesh, Mesh shortPointerMesh) {
         super(relPos, relRot);
 
         DisplayElement background = new DisplayElement(backgroundMesh);

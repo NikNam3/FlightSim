@@ -1,6 +1,7 @@
 package simobjects.aircraft;
 
 import gamecontrol.Session;
+import math.Mat3;
 import math.Vec3;
 import simobjects.Entity;
 
@@ -17,7 +18,7 @@ public abstract class Aircraft extends Entity {
     private Vec3 velocity;
 
 
-    public Aircraft(Vec3 relPos, Vec3 relRot) {
+    public Aircraft(Vec3 relPos, Mat3 relRot) {
         super(relPos, relRot);
     }
 

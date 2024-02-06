@@ -1,6 +1,7 @@
 package simobjects.aircraft.displays;
 
 import graphics.Mesh;
+import math.Math3D;
 import math.Vec3;
 import simobjects.Entity;
 
@@ -14,7 +15,7 @@ import simobjects.Entity;
  */
 public class DisplayElement extends Entity {
     public DisplayElement(Mesh mesh) {
-        super(Vec3.zero(), Vec3.zero()); // Sets the rel- Position and Rotation to (0,0,0)
+        super(Vec3.zero(), Math3D.eulerAnglesToRotationMatrix(Vec3.zero())); // Sets the rel- Position and Rotation to (0,0,0)
         this.setMesh(mesh);
     }
     /**
@@ -22,7 +23,7 @@ public class DisplayElement extends Entity {
      * @param rotation is the new Rotation of the Background in degrees (0°-360°)
      */
     protected void setRotation(float rotation) {
-         setRelRot(new Vec3(0,0, rotation)); // TODO look into this
+         setRelRot(Math3D.eulerAnglesToRotationMatrix(new Vec3(0,0, rotation))); // TODO look into this
     }
 
 
