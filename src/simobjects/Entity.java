@@ -59,4 +59,7 @@ public class Entity {
     public Vec3 getRelRotation() {
         return relRot;
     }
+    public Vec3 getRelPosition() {
+        return relPos;
+    }
 }

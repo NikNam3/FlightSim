@@ -1,4 +1,4 @@
-package aircraft.display;
+package simobjects.aircraft.displays;
 
 import graphics.Mesh;
 import math.Vec3;

@@ -1,7 +1,19 @@
-package aircraft.display;
+package simobjects.aircraft.displays;
 
 import graphics.Mesh;
 import math.Vec3;
+
+/**
+ * The AttitudeIndicator class handles the Logic behind the AttitudeIndicator Display
+ * It extends the Display class and implements the Update method
+ * The AttitudeIndicator class is used to display the current Attitude of the Aircraft
+ *
+ * @see Display
+ *
+ * @author      Nikolas Kühnlein
+ * @version     a1.0
+ * @since       a1.0
+ */
 
 public class AttitudeIndicator extends Display {
     public AttitudeIndicator(Vec3 relPos, Vec3 relRot, Mesh backgroundMesh, Mesh pointerMesh) {

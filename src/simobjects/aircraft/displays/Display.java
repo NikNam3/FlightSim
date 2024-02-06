@@ -1,6 +1,6 @@
-package aircraft.display;
+package simobjects.aircraft.displays;
 
-import aircraft.Aircraft;
+import simobjects.aircraft.Aircraft;
 import math.Vec3;
 import simobjects.Entity;
 
