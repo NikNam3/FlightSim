@@ -1,8 +1,10 @@
-package engine.structures;
+package mcg.in4.projekte_23_24.FlightSim.simlogic.entitys;
+
+import mcg.in4.projekte_23_24.FlightSim.engine.structures.Scene;
 
 public abstract class EntityBehavior {
-    private Scene scene;
-    private int hostId;
+    protected Scene scene;
+    protected int hostId;
 
     public EntityBehavior(){}
 
@@ -28,5 +30,14 @@ public abstract class EntityBehavior {
         this.hostId = host;
     }
 
+
+    /**
+     * This method is called every frame
+     * @param deltaTime The time since the last frame in seconds.
+     */
     public void onUpdate(float deltaTime){}
+    /**
+     * This method is called when the entity is created
+     */
+    public void onCreate(){}
 }

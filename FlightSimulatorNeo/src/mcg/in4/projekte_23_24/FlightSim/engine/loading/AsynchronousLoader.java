@@ -1,7 +1,7 @@
-package engine.loading;
+package mcg.in4.projekte_23_24.FlightSim.engine.loading;
 
-import engine.structures.Mesh;
-import engine.structures.Texture2D;
+import mcg.in4.projekte_23_24.FlightSim.simlogic.components.Mesh;
+import mcg.in4.projekte_23_24.FlightSim.engine.structures.Texture2D;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

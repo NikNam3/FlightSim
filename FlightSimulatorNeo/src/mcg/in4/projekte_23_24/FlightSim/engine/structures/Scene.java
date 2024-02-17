@@ -1,4 +1,4 @@
-package engine.structures;
+package mcg.in4.projekte_23_24.FlightSim.engine.structures;
 
 import java.util.ArrayList;
 import java.util.HashMap;

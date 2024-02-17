@@ -1,4 +1,4 @@
-package engine.graphics.shader;
+package mcg.in4.projekte_23_24.FlightSim.engine.graphics.shader;
 
 import java.io.IOException;
 import java.nio.file.Files;

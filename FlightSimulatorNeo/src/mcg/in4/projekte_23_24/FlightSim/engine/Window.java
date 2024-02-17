@@ -1,4 +1,4 @@
-package engine;
+package mcg.in4.projekte_23_24.FlightSim.engine;
 
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;

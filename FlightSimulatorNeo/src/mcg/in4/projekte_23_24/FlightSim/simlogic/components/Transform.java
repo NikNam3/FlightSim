@@ -1,6 +1,6 @@
-package engine.structures;
+package mcg.in4.projekte_23_24.FlightSim.simlogic.components;
 
-import engine.Math3d;
+import mcg.in4.projekte_23_24.FlightSim.engine.Math3d;
 
 public class Transform {
     public float[][] matrixOffset;

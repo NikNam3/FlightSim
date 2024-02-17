@@ -26,7 +26,7 @@ subject to the following:
     i. FMOD Studio Engine is integrated and redistributed in a software
     application (Product) only;
 
-    ii. FMOD Studio Engine is not distributed as part of a game engine or tool
+    ii. FMOD Studio Engine is not distributed as part of a game mcg.in4.projekte_23_24.FlightSim.engine or tool
     set;
 
     iii. FMOD Studio Engine is not used in any Commercial enterprise or for any
@@ -154,4 +154,4 @@ SUCH DAMAGE.
 
 The audiogaming_audiomotors_demo_engine.agp file is provided for evaluation
 purposes only and is not to be redistributed. AudioMotors V2 Pro is required to
-create your own engine content. Refer to https://lesound.io for information.
+create your own mcg.in4.projekte_23_24.FlightSim.engine content. Refer to https://lesound.io for information.

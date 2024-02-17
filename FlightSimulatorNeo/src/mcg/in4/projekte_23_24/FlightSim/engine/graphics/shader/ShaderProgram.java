@@ -1,4 +1,4 @@
-package engine.graphics.shader;
+package mcg.in4.projekte_23_24.FlightSim.engine.graphics.shader;
 
 import static org.lwjgl.opengl.GL41.*;
 

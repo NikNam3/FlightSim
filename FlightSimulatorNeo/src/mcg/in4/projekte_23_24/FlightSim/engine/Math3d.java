@@ -1,4 +1,4 @@
-package engine;
+package mcg.in4.projekte_23_24.FlightSim.engine;
 
 public class Math3d {
     public static float[] vec3(float ... xyz){
@@ -80,6 +80,14 @@ public class Math3d {
             result[i] = a[i] * s;
         }
         return result;
+    }
+
+    public static float dot(float[] a, float[] b){
+        float sum = 0.0f;
+        for(int i = 0; i < a.length; i++){
+            sum += a[i] * b[i];
+        }
+        return sum;
     }
 
     public static float length2(float[] vec){
@@ -178,6 +186,10 @@ public class Math3d {
         return result;
     }
 
+    public static float[] normalize(float[] vec){
+        return mul(vec, 1.0f / length(vec));
+    }
+
     public static float[] mul(float[][] mat, float[] vec){
         int n = vec.length;
         float[] result = new float[n];
@@ -240,6 +252,13 @@ public class Math3d {
             result.append("]\n");
         }
         return result.toString();
+    }
+    public static float[] getVec3(float[][] mat4) {
+        return new float[]{
+                mat4[0][3],
+                mat4[1][3],
+                mat4[2][3]
+        };
     }
 
     private static float cosf(float n){

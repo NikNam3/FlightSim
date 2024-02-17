@@ -1,16 +1,15 @@
-package engine.graphics;
+package mcg.in4.projekte_23_24.FlightSim.engine.graphics;
 
-import engine.Math3d;
-import engine.Window;
-import engine.graphics.shader.ShaderProgram;
-import engine.graphics.shader.ShaderProgramLoader;
-import engine.structures.Camera;
-import engine.structures.Mesh;
-import engine.structures.Scene;
-import engine.structures.Transform;
+import mcg.in4.projekte_23_24.FlightSim.engine.Window;
+import mcg.in4.projekte_23_24.FlightSim.engine.graphics.shader.ShaderProgram;
+import mcg.in4.projekte_23_24.FlightSim.engine.graphics.shader.ShaderProgramLoader;
+import mcg.in4.projekte_23_24.FlightSim.engine.structures.Camera;
+import mcg.in4.projekte_23_24.FlightSim.simlogic.components.Mesh;
+import mcg.in4.projekte_23_24.FlightSim.engine.structures.Scene;
+import mcg.in4.projekte_23_24.FlightSim.simlogic.components.Transform;
 
 import static org.lwjgl.opengl.GL41.*;
-import static engine.Math3d.*;
+import static mcg.in4.projekte_23_24.FlightSim.engine.Math3d.*;
 
 public class Renderer {
 

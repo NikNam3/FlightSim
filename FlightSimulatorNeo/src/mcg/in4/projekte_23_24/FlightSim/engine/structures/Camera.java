@@ -1,4 +1,4 @@
-package engine.structures;
+package mcg.in4.projekte_23_24.FlightSim.engine.structures;
 
 public class Camera {
     public float fov;

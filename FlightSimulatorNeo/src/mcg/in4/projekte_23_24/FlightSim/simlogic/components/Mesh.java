@@ -1,4 +1,6 @@
-package engine.structures;
+package mcg.in4.projekte_23_24.FlightSim.simlogic.components;
+
+import mcg.in4.projekte_23_24.FlightSim.engine.structures.Texture2D;
 
 public class Mesh {
     public int glId;

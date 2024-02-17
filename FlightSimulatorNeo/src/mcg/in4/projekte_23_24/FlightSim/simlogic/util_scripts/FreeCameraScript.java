@@ -1,11 +1,11 @@
-package simlogic.scripts;
+package mcg.in4.projekte_23_24.FlightSim.simlogic.util_scripts;
 
-import engine.Window;
-import engine.structures.EntityBehavior;
-import engine.structures.Transform;
+import mcg.in4.projekte_23_24.FlightSim.engine.Window;
+import mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.EntityBehavior;
+import mcg.in4.projekte_23_24.FlightSim.simlogic.components.Transform;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static engine.Math3d.*;
+import static mcg.in4.projekte_23_24.FlightSim.engine.Math3d.*;
 
 // NUR ZUM TEST ... API WIRD SICH ÄNDERN!!!
 
@@ -19,8 +19,8 @@ public class FreeCameraScript extends EntityBehavior {
 
         Transform transform = getComponent(Transform.class);
 
-        float moveSpeed = 1;
-        float rotSpeed  = 0.8f;
+        float moveSpeed = 0.01f;
+        float rotSpeed  = 0.0008f;
 
         if(glfwGetKey(glfwWindow, GLFW_KEY_LEFT_SHIFT) == 1){
             moveSpeed *= 3;
