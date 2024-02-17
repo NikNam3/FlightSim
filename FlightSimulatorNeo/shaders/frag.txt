@@ -1,0 +1,19 @@
+#version 410
+
+out vec4 o_color;
+
+in vec3 v_normal;
+in vec2 v_uv;
+
+uniform sampler2D u_texture;
+uniform bool u_has_albedo_map;
+
+void main(){
+    vec3 normal = normalize(v_normal);
+    float shade = dot(normal, normalize(vec3(0, 1, 1)));
+    shade = max(shade, 0.4);
+    vec3 albedo = vec3(0.8, 0.8, 0.8);
+    if(u_has_albedo_map)
+        texture(u_texture, v_uv).xyz;
+    o_color = vec4(shade * albedo, 1);
+}
