@@ -6,7 +6,7 @@ public class RigidBody {
     public float mass;
     public float[] velocity;
     public float[] relCenterOfGravity;
-    public float[][] angularVelocity;
+    public float[] angularVelocity; // Yaw, Pitch, Roll in rad/s
 
     public List<float[][]> forces; // 0: force, 1: position, 2: inertia
 }

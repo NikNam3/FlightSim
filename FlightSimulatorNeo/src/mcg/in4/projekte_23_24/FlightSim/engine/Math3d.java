@@ -50,12 +50,30 @@ public class Math3d {
         return result;
     }
 
+    public static float[][] add(float[][] a, float[][] b) { // Keine Ahnung von Mathe und keine zeit grade zu überprüfen, bitte durchschauen TODO
+        float[][] result = new float[4][4];
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                result[i][j] = a[i][j] + b[i][j];
+            }
+        }
+        return result;
+    }
+
     public static float[] sub(float[] a, float[] b){
         float[] result = new float[a.length];
         for(int i = 0; i < a.length; i++){
             result[i] = a[i] - b[i];
         }
         return result;
+    }
+
+    public static float[] cross(float[] a, float[] b){
+        return new float[]{
+            a[1] * b[2] - a[2] * b[1],
+            a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0]
+        };
     }
 
     public static float[] mul(float[] a, float[] b){
@@ -65,6 +83,7 @@ public class Math3d {
         }
         return result;
     }
+
 
     public static float[] mul(float[] a, float s){
         float[] result = new float[a.length];
@@ -89,6 +108,23 @@ public class Math3d {
         }
         return sum;
     }
+
+    public static float[] div(float[] a, float[] b){
+        float[] result = new float[a.length];
+        for(int i = 0; i < a.length; i++){
+            result[i] = a[i] / b[i];
+        }
+        return result;
+    }
+
+    public static float[] div(float[] a, float s){
+        float[] result = new float[a.length];
+        for(int i = 0; i < a.length; i++){
+            result[i] = a[i] / s;
+        }
+        return result;
+    }
+
 
     public static float length2(float[] vec){
         float sum = 0.0f;
@@ -135,6 +171,13 @@ public class Math3d {
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
         };
+    }
+
+    public static float[][] rotationMatrix(float x, float y, float z) {
+        float[][] rx = rotationX(x);
+        float[][] ry = rotationY(y);
+        float[][] rz = rotationZ(z);
+        return mul(mul(rz, ry), rx); // Hoffentlich die rihctige reinfolge TODO
     }
 
     public static float[][] perspective(float fov, float zNear, float zFar, float a){
