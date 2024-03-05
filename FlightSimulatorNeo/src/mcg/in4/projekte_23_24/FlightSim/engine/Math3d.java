@@ -11,6 +11,7 @@ public class Math3d {
             z = xyz[2];
         return new float[]{x, y, z};
     }
+    public static final float[] vec3up = vec3(0, 1, 0);
 
     public static float[] vec4(float ... xyzw){
         float x = 0, y = 0, z = 0, w = 0;
@@ -230,6 +231,8 @@ public class Math3d {
     }
 
     public static float[] normalize(float[] vec){
+        if (length(vec) == 0.0f)
+            return vec;
         return mul(vec, 1.0f / length(vec));
     }
 

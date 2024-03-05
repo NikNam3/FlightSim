@@ -30,4 +30,12 @@ public class ShaderProgram {
             glUniform1i(loc, i);
         }
     }
+
+    public void uploadFloat(String name, float i){
+        glUseProgram(glId);
+        int loc = glGetUniformLocation(glId, name);
+        if(loc != -1){
+            glUniform1f(loc, i);
+        }
+    }
 }

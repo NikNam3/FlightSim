@@ -1,7 +1,6 @@
 package mcg.in4.projekte_23_24.FlightSim.simlogic.entitys;
 
-import mcg.in4.projekte_23_24.FlightSim.simlogic.components.Mesh;
-import mcg.in4.projekte_23_24.FlightSim.simlogic.components.Surfaces;
+import mcg.in4.projekte_23_24.FlightSim.engine.Math3d;
 import mcg.in4.projekte_23_24.FlightSim.simlogic.components.Transform;
 
 /**
@@ -26,5 +25,6 @@ public class Aircraft extends EntityBehavior {
      */
     @Override
     public void onUpdate(float deltaTime){
+        //System.out.println("Aircraft position: " + Math3d.string(scene.getComponent(hostId, Transform.class).matrixOffset, false));
     }
 }

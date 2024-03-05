@@ -1,10 +1,6 @@
 package mcg.in4.projekte_23_24.FlightSim.engine.structures;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Scene {
     private final Map<Integer, Map<String, Object>> components;
@@ -71,10 +67,41 @@ public class Scene {
     }
 
     public <T> T getComponent(int entity, Class<T> cls){
-        return (T) components.get(entity).get(cls.getName());
+        T component = (T) components.get(entity).get(cls.getName());
+
+        if(component == null){
+            throw new RuntimeException("Entity " + entity + " does not have component " + cls.getName());
+        }
+        return component;
+
+    }
+    public <T> T getComponentByParentClass(int entity, Class<T> cls){
+        List<Object> components = getComponents(entity);
+        for (Object component : components) {
+            if (cls.isInstance(component)) {
+                return (T) component;
+            }
+        }
+        return null;
+    }
+
+
+    public List<Object> getComponents(int entity){
+        return new ArrayList<>(components.get(entity).values());
     }
 
     public <T> boolean hasComponent(int entity, Class<T> cls){
         return components.get(entity).containsKey(cls.getName());
     }
+    public boolean hasComponentByParentClass(int entity, Class<?> cls){
+        List<Object> components = getComponents(entity);
+        for (Object component : components) {
+            if (cls.isInstance(component) || cls.equals(component.getClass())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

@@ -40,4 +40,5 @@ public abstract class EntityBehavior {
      * This method is called when the entity is created
      */
     public void onCreate(){}
+
 }
