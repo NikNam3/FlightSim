@@ -14,6 +14,7 @@ import mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.EntityBehavior;
 import mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.aircrafts.Cessna172;
 import mcg.in4.projekte_23_24.FlightSim.simlogic.physics.Physics;
 import mcg.in4.projekte_23_24.FlightSim.simlogic.util_scripts.FreeCameraScript;
+import mcg.in4.projekte_23_24.FlightSim.simlogic.util_scripts.FreeCameraScript2;
 import mcg.in4.projekte_23_24.FlightSim.simlogic.util_scripts.HelicopterScript;
 
 
@@ -36,8 +37,8 @@ public class FlightSim {
         RenderUtils.init();
 
         // TODO framebufferstuff bitte kommentieren
-        Texture2D color = Texture2D.createFloat32(windowWidth, windowHeight, 3);
-        Texture2D depth = Texture2D.createDepth(windowWidth, windowHeight);
+        Texture2D color = Texture2D.createFloat32(windowWidth*2, windowHeight*2, 3);
+        Texture2D depth = Texture2D.createDepth(windowWidth*2, windowHeight*2);
         FrameBuffer fb = new FrameBuffer();
         fb.attachTexture2D(color, 0);
         fb.attachDepthBufferTexture(depth);
@@ -60,8 +61,8 @@ public class FlightSim {
                 color.destroy();
                 depth.destroy();
 
-                color = Texture2D.createFloat32(windowWidth, windowHeight, 3);
-                depth = Texture2D.createDepth(windowWidth, windowHeight);
+                color = Texture2D.createFloat32(windowWidth*2, windowHeight*2, 3);
+                depth = Texture2D.createDepth(windowWidth*2, windowHeight*2);
 
                 fb.attachTexture2D(color, 0);
                 fb.attachDepthBufferTexture(depth);
@@ -124,7 +125,7 @@ public class FlightSim {
 
         activeCamera = scene.createEntity();
         scene.addComponent(activeCamera, new Camera(0.7f, 0.5f, 20000.f), Camera.class);
-        scene.addComponent(activeCamera, new FreeCameraScript(), EntityBehavior.class);
+        scene.addComponent(activeCamera, new FreeCameraScript2(), EntityBehavior.class);
         scene.getComponent(activeCamera, EntityBehavior.class).bind(scene, activeCamera);
 
         scene.addComponent(activeCamera, new Transform(), Transform.class);

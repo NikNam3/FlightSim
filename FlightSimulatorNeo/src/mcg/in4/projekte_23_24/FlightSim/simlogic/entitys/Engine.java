@@ -25,8 +25,6 @@ public class Engine extends EntityBehavior{
 
     @Override
     public void onUpdate(float deltaTime){
-        System.out.println("Engine RPM: " + currentRPM);
-        System.out.println("Engine set RPM: " + setRPM);
         long glfwWindow = Window.getGlfwWindowAddress();
         if (glfwGetKey(glfwWindow, increaseKey) == 1)
             setRPM += 8f;

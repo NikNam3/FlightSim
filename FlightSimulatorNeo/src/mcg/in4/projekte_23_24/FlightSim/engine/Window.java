@@ -28,7 +28,7 @@ public class Window {
             public void invoke(long window, int width, int height) {
                 Window.width  = width;
                 Window.height = height;
-                GL41.glViewport(0, 0, width, height);
+                GL41.glViewport(0, 0, width*2, height*2);
             }
         });
     }

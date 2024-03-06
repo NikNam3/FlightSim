@@ -1,5 +1,7 @@
 package mcg.in4.projekte_23_24.FlightSim.engine;
 
+import java.util.Arrays;
+
 public class Math3d {
     public static float[] vec3(float ... xyz){
         float x = 0, y = 0, z = 0;
@@ -207,27 +209,48 @@ public class Math3d {
     }
 
     // Funktion von so einer KI, die das hier eh bald besser coden können :(
-    public static float[][] inverse(float[][] mat){
-        int n = mat.length;
-        float[][] result = mat4();
+    public static float[][] inverse(float[][] matrix) {
+        int n = matrix.length;
 
+        // Create a copy of the input matrix
+        float[][] originalMatrix = new float[n][n];
         for (int i = 0; i < n; i++) {
-            float pivot = mat[i][i];
-            for (int j = 0; j < n; j++) {
-                mat[i][j] /= pivot;
-                result[i][j] /= pivot;
+            originalMatrix[i] = Arrays.copyOf(matrix[i], n);
+        }
+
+        // Create an identity matrix of the same size as the input matrix
+        float[][] identityMatrix = new float[n][n];
+        for (int i = 0; i < n; i++) {
+            identityMatrix[i][i] = 1;
+        }
+
+        // Apply Gauss-Jordan elimination
+        for (int i = 0; i < n; i++) {
+            float pivot = originalMatrix[i][i];
+            if (pivot == 0) {
+                // Matrix is singular, inverse does not exist
+                return null;
             }
+
+            // Scale the row to make the pivot 1
+            for (int j = 0; j < n; j++) {
+                originalMatrix[i][j] /= pivot;
+                identityMatrix[i][j] /= pivot;
+            }
+
+            // Subtract multiples of the row from other rows to make all other entries in the column zero
             for (int k = 0; k < n; k++) {
                 if (k != i) {
-                    float factor = mat[k][i];
+                    float factor = originalMatrix[k][i];
                     for (int j = 0; j < n; j++) {
-                        mat[k][j] -= factor * mat[i][j];
-                        result[k][j] -= factor * result[i][j];
+                        originalMatrix[k][j] -= factor * originalMatrix[i][j];
+                        identityMatrix[k][j] -= factor * identityMatrix[i][j];
                     }
                 }
             }
         }
-        return result;
+
+        return identityMatrix;
     }
 
     public static float[] normalize(float[] vec){

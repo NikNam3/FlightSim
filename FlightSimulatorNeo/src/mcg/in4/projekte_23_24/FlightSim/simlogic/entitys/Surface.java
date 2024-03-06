@@ -3,11 +3,14 @@ package mcg.in4.projekte_23_24.FlightSim.simlogic.entitys;
 public class Surface extends EntityBehavior{
     public final float[] NORMAL; // Normalized vector
     public final float SURFACE_AREA; // TODO magic number
+    public final float[] CHORD_LINE;
 
     public Surface(float[] normal, float surface_area) {
         super();
         NORMAL = normal;
         SURFACE_AREA = surface_area;
+        CHORD_LINE = new float[]{0,0,-1};
+
     }
 
     public float calculateLiftCoefficient(float aoa){

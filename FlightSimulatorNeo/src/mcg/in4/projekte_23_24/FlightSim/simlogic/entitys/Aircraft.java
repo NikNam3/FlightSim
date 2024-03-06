@@ -25,6 +25,6 @@ public class Aircraft extends EntityBehavior {
      */
     @Override
     public void onUpdate(float deltaTime){
-        //System.out.println("Aircraft position: " + Math3d.string(scene.getComponent(hostId, Transform.class).matrixOffset, false));
+        //System.out.println("Aircraft position: \n" + Math3d.string(scene.getComponent(hostId, Transform.class).matrixOffset, false));
     }
 }

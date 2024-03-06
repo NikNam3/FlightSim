@@ -1,7 +1,7 @@
 package mcg.in4.projekte_23_24.FlightSim.simlogic.entitys;
 
 public class WingSurface extends Surface {
-    final float ASPECT_RATIO = 7.40f; // TODO magic number
+    final float ASPECT_RATIO = 7.37f; // TODO magic number
     final float CD_MIN = 0.0270f; // TODO magic number
     final float OSWALD_FACTOR = 0.80f; // TODO magic number
 

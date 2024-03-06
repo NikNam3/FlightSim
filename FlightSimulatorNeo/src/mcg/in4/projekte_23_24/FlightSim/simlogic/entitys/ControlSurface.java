@@ -26,9 +26,14 @@ public class ControlSurface extends WingSurface {
 
     @Override
     public float calculateLiftCoefficient(float aoa){
-        aoa += -flapAngle * FLAP_MULTIPLIER; // WELP THIS IS HOW THE FLAPS WORK NOW I GUESS
 
-        double liftCoefficient = 2*Math.PI * ASPECT_RATIO * aoa / (ASPECT_RATIO + 2);
+
+        if (aoa > 15*Math.PI/180) {
+            // Stall
+            aoa = (float) (15*Math.PI/180 - (aoa - 15*Math.PI/180));
+            System.out.println("Stall");
+        }
+        double liftCoefficient = 2*Math.PI * ASPECT_RATIO * aoa / (ASPECT_RATIO + 2) + 0.35 + -flapAngle * FLAP_MULTIPLIER; // WELP THIS IS HOW THE FLAPS WORK NOW I GUESS;
         return (float) liftCoefficient;
     }
     @Override
@@ -39,14 +44,16 @@ public class ControlSurface extends WingSurface {
     @Override
     public void onUpdate(float deltaTime){
         long glfwWindow = Window.getGlfwWindowAddress();
-        if (glfwGetKey(glfwWindow, increaseAngleKey) == 1)
-            flapAngle += 0.01f * deltaTime;
-        if (glfwGetKey(glfwWindow, decreaseAngleKey) == 1)
-            flapAngle -= 0.01f * deltaTime;
-
-        if (flapAngle > MAX_FLAP_ANGLE)
+        if (glfwGetKey(glfwWindow, increaseAngleKey) == 1) {
             flapAngle = MAX_FLAP_ANGLE;
-        if (flapAngle < MIN_FLAP_ANGLE)
+        }
+
+        else if (glfwGetKey(glfwWindow, decreaseAngleKey) == 1) {
             flapAngle = MIN_FLAP_ANGLE;
+        }
+        else {
+            flapAngle = 0;
+        }
+
     }
 }
