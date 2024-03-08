@@ -2,7 +2,7 @@ package mcg.in4.projekte_23_24.FlightSim.Enviroment;
 
 public class Weather {
     public static float[] getWindAtPosition(float[] position){
-        return new float[]{-5,0,0}; // TODO magic number wind has 5m/s from south
+        return new float[]{0,0,0.00001f}; // TODO magic number wind has 5m/s from south
     }
 
     public static float getAirDensityAtPosition(float[] position){

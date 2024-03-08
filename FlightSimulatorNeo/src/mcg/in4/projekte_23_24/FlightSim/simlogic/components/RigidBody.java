@@ -9,5 +9,5 @@ public class RigidBody {
     public float[] angularVelocity; // Yaw, Pitch, Roll in rad/s
     public float[][] inertiaTensor; // Ixx, Iyy, Izz
 
-    public List<float[][]> forces; // 0: force, 1: position
+    public List<float[][]> forces; // 0: force, 1: relposition
 }

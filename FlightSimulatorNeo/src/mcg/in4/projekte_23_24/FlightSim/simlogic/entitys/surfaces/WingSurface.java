@@ -1,12 +1,14 @@
-package mcg.in4.projekte_23_24.FlightSim.simlogic.entitys;
+package mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.surfaces;
+
+import mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.surfaces.Surface;
 
 public class WingSurface extends Surface {
     final float ASPECT_RATIO = 7.37f; // TODO magic number
     final float CD_MIN = 0.0270f; // TODO magic number
     final float OSWALD_FACTOR = 0.80f; // TODO magic number
 
-    public WingSurface(float[] normal, float surface_area) {
-        super(normal, surface_area);
+    public WingSurface(float[] normal, float[] chord_line, float surface_area) {
+        super(normal, chord_line, surface_area);
     }
     @Override
     public float calculateLiftCoefficient(float aoa){

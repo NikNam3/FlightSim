@@ -51,7 +51,13 @@ public class FlightSim {
         }
 
         // Main Loop
+        // DELTATIME
+        long last_time = System.nanoTime();
+
         while(!Window.exitRequested()){
+            long current_time = System.nanoTime();
+            int deltaTime = (int)((current_time - last_time) / 1000000);
+            last_time = current_time;
             // TODO bitte kommentieren
             if(Window.getWidth() != windowWidth || Window.getHeight() != windowHeight){
                 // All window size change events
@@ -78,9 +84,9 @@ public class FlightSim {
             // Update all entities
             for(int entity : scene.getAll()){
                 // TODO: Update Physics, ...
-                Physics.update(scene, entity, 1/60f);
+                Physics.update(scene, entity, deltaTime / 1000.f);
                 if(scene.hasComponentByParentClass(entity, EntityBehavior.class))
-                    scene.getComponentByParentClass(entity, EntityBehavior.class).onUpdate(1 / 60.f);
+                    scene.getComponentByParentClass(entity, EntityBehavior.class).onUpdate(deltaTime / 1000.f);
             }
 
             testHeights(); // TODO: remove

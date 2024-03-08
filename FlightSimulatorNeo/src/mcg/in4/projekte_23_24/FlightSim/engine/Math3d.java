@@ -14,6 +14,7 @@ public class Math3d {
         return new float[]{x, y, z};
     }
     public static final float[] vec3up = vec3(0, 1, 0);
+    public static final float[] vec3forward = vec3(0, 0, -1);
 
     public static float[] vec4(float ... xyzw){
         float x = 0, y = 0, z = 0, w = 0;
@@ -176,7 +177,7 @@ public class Math3d {
         };
     }
 
-    public static float[][] rotationMatrix(float x, float y, float z) {
+    public static float[][] rotationMatrix(float x, float y, float z) { // Input in radians
         float[][] rx = rotationX(x);
         float[][] ry = rotationY(y);
         float[][] rz = rotationZ(z);
@@ -190,6 +191,12 @@ public class Math3d {
                 {0, 0, -(zFar + zNear) / (zFar - zNear), -(2 * zFar * zNear) / (zFar - zNear)},
                 {0, 0, -1, 0}
         };
+    }
+
+    public static float[] rotateVec3(float[] vec, float[][] matrix) {
+        vec = new float[] {vec[0], vec[1], vec[2], 0};
+        vec = mul(matrix, vec);
+        return new float[] {vec[0], vec[1], vec[2]};
     }
 
     public static float[][] translation(float ... xyz){
