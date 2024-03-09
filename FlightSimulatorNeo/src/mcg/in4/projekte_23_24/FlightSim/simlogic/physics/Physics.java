@@ -138,6 +138,9 @@ public class Physics {
             //System.out.println("Total Force: " + Math3d.string(totalForce, false));
             //System.out.println("Total Torque: " + Math3d.string(totalTorque, false));
 
+            // rotate the torque to the local space
+            totalTorque = Math3d.mul(Math3d.inverse(transform.matrixRotate), totalTorque);
+
 
             float[] acceleration = Math3d.div(totalForce, rigidBody.mass);
             float[] angularAcceleration = Math3d.mul(Math3d.inverse(rigidBody.inertiaTensor), totalTorque);
