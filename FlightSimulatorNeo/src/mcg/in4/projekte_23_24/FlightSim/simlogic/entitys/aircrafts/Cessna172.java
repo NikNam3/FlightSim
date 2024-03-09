@@ -11,6 +11,7 @@ import mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.surfaces.SymmetricalWin
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Cessna172 extends Aircraft {
     @Override
@@ -49,24 +50,24 @@ public class Cessna172 extends Aircraft {
         scene.getComponent(rightInnerWing, EntityBehavior.class).bind(scene, rightInnerWing);
 
         int leftElevator = scene.createEntity();
-        scene.addComponent(leftElevator, new Transform(Math3d.vec3(-0.75f, 0, -6)), Transform.class);
-        scene.addComponent(leftElevator, new  ControlledSymmetricalWing(new float[] {0,1f,0f},Math3d.vec3forward, 0.166f, -0.5f, 0.5f,GLFW.GLFW_KEY_S,GLFW.GLFW_KEY_W), EntityBehavior.class);
+        scene.addComponent(leftElevator, new Transform(Math3d.vec3(-0.75f, 0, 6)), Transform.class);
+        scene.addComponent(leftElevator, new  ControlledSymmetricalWing(new float[] {0,1f,0f},Math3d.vec3forward, -0.16f, -0.5f, 0.5f,GLFW.GLFW_KEY_S,GLFW.GLFW_KEY_W), EntityBehavior.class);
         scene.addComponent(leftElevator, new Mesh(), Mesh.class);
 
         scene.adopt(hostId, leftElevator);
         scene.getComponent(leftElevator, EntityBehavior.class).bind(scene, leftElevator);
 
         int rightElevator = scene.createEntity();
-        scene.addComponent(rightElevator, new Transform(Math3d.vec3(0.75f, 0, -6)), Transform.class);
-        scene.addComponent(rightElevator, new ControlledSymmetricalWing(new float[] {0,1f,0f},Math3d.vec3forward, 0.166f, -0.5f, 0.5f,GLFW.GLFW_KEY_S,GLFW.GLFW_KEY_W), EntityBehavior.class);
+        scene.addComponent(rightElevator, new Transform(Math3d.vec3(0.75f, 0, 6)), Transform.class);
+        scene.addComponent(rightElevator, new ControlledSymmetricalWing(new float[] {0,1f,0f},Math3d.vec3forward, -0.16f, -0.5f, 0.5f,GLFW.GLFW_KEY_S,GLFW.GLFW_KEY_W), EntityBehavior.class);
         scene.addComponent(rightElevator, new Mesh(), Mesh.class);
 
         scene.adopt(hostId, rightElevator);
         scene.getComponent(rightElevator, EntityBehavior.class).bind(scene, rightElevator);
 
         int rudder = scene.createEntity();
-        scene.addComponent(rudder, new Transform(), Transform.class);
-        scene.addComponent(rudder, new SymmetricalWing(new float[] {1, 0, 0},Math3d.vec3forward, 1.67f), EntityBehavior.class);
+        scene.addComponent(rudder, new Transform(Math3d.vec3(0, 1.5f, 6)), Transform.class);
+        scene.addComponent(rudder, new SymmetricalWing(new float[] {1, 0, 0},Math3d.vec3forward, 0.3f), EntityBehavior.class);
         scene.addComponent(rudder, new Mesh(), Mesh.class);
 
         scene.adopt(hostId, rudder);
@@ -120,7 +121,7 @@ public class Cessna172 extends Aircraft {
         scene.getComponent(hostId, RigidBody.class).forces = new ArrayList<>();
         scene.getComponent(hostId, RigidBody.class).inertiaTensor = new float[][]{
                 {1285, 0, 0},
-                {0, 1824000000, 0},
+                {0, 1824, 0},
                 {0, 0, 2666}}; // TODO magic numbers
 
 
@@ -130,7 +131,7 @@ public class Cessna172 extends Aircraft {
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
         };
-
+        scene.getComponent(hostId, Transform.class).matrixRotate = Math3d.rotationMatrix(0, (float) 0 ,0);
         System.out.println("Cessna172 created");
     }
 

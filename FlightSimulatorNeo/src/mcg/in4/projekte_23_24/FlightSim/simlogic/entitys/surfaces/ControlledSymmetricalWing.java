@@ -30,8 +30,15 @@ public class ControlledSymmetricalWing extends SymmetricalWing {
         if (aoa > 15*Math.PI/180) {
             // Stall
             aoa = (float) (15*Math.PI/180 - (aoa - 15*Math.PI/180));
-            System.out.println("SymStall");
+            //System.out.println("SymStall");
             if (aoa < 0) {
+                aoa = 0;
+            }
+        } else if (aoa < -15*Math.PI/180) {
+            // Stall
+            aoa = (float) (-15*Math.PI/180 - (aoa + 15*Math.PI/180));
+            //System.out.println("SymStall");
+            if (aoa > 0) {
                 aoa = 0;
             }
         }

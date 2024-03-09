@@ -42,9 +42,9 @@ public class FreeCameraScript2 extends EntityBehavior {
 
         transform.matrixOffset = Math3d.add(scene.getComponent(2, Transform.class).matrixOffset, new float[][]
                 {
+                        {0,0,0,0f},
                         {0,0,0,0},
-                        {0,0,0,-5},
-                        {0,0,0,20},
+                        {0,0,0,20f},
                         {0,0,0,0}
                 });
     }
