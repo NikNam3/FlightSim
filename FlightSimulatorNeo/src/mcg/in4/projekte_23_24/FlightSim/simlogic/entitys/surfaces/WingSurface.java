@@ -1,14 +1,22 @@
 package mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.surfaces;
 
-import mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.surfaces.Surface;
-
+/**
+ * This class represents a WingSurface of an Object in the Simulation. It contains the normal vector and the surface area of the WingSurface.
+ * Further it contains the aspect ratio, the minimum drag coefficient and the Oswald factor of the WingSurface.
+ * 
+ * As this is a Surface it extends the Surface class.
+ * @see Surface
+ * @version 1.0
+ * @since 1.0
+ * @author Nikolas Kühnlein
+ */
 public class WingSurface extends Surface {
     final float ASPECT_RATIO = 7.37f; // TODO magic number
     final float CD_MIN = 0.0270f; // TODO magic number
     final float OSWALD_FACTOR = 0.80f; // TODO magic number
 
-    public WingSurface(float[] normal, float[] chord_line, float surface_area) {
-        super(normal, chord_line, surface_area);
+    public WingSurface(float[] normal, float surface_area) {
+        super(normal, surface_area);
     }
     @Override
     public float calculateLiftCoefficient(float aoa){

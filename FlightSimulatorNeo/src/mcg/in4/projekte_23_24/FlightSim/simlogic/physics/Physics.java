@@ -32,17 +32,10 @@ public class Physics {
 
                 // Get the actual Surface entity
                 Surface surface = scene.getComponentByParentClass(surfaceId, Surface.class);
-                if (surfaceId == 9) {
-                    //System.out.println("Surface: " + surfaceId);
-                    //System.out.println("    Lift: " + Math3d.string(calculateWingLift(surface, rigidBody.velocity, transform), false));
-                    //System.out.println("    Drag: " + Math3d.string(calculateWingDrag(surface, rigidBody.velocity, transform), false));
-                    //System.out.println("    TorqueLift: " + Math3d.string(Math3d.cross(offsetVector, calculateWingLift(surface, rigidBody.velocity, transform)), false) + " offsetVector: " + Math3d.string(offsetVector, false));
-                    //System.out.println("    TorqueDrag: " + Math3d.string(Math3d.cross(offsetVector, calculateWingDrag(surface, rigidBody.velocity, transform)), false));
-                }
-                System.out.println("Surface: " + surfaceId);
-                System.out.println("    Lift: " + Math3d.string(calculateWingLift(surface, rigidBody.velocity, transform), false));
+                //System.out.println("Surface: " + surfaceId);
+                //System.out.println("    Lift: " + Math3d.string(calculateWingLift(surface, rigidBody.velocity, transform), false));
                 //System.out.println("    Drag: " + Math3d.string(calculateWingDrag(surface, rigidBody.velocity, transform), false));
-                System.out.println("    TorqueLift: " + Math3d.string(Math3d.cross(offsetVector, calculateWingLift(surface, rigidBody.velocity, transform)), false) + " offsetVector: " + Math3d.string(offsetVector, false));
+                //System.out.println("    TorqueLift: " + Math3d.string(Math3d.cross(offsetVector, calculateWingLift(surface, rigidBody.velocity, transform)), false) + " offsetVector: " + Math3d.string(offsetVector, false));
                 //System.out.println("    TorqueDrag: " + Math3d.string(Math3d.cross(offsetVector, calculateWingDrag(surface, rigidBody.velocity, transform)), false));
                 // Add Lift to the RigidBody
                 rigidBody.forces.add(new float[][] {
@@ -149,11 +142,12 @@ public class Physics {
 
 
             rigidBody.velocity = Math3d.add(rigidBody.velocity, Math3d.mul(acceleration, deltaTime));
-            //System.out.println("angularVelocitybefore: " + Arrays.toString(rigidBody.angularVelocity));
             rigidBody.angularVelocity = Math3d.add(rigidBody.angularVelocity, Math3d.mul(angularAcceleration, deltaTime));
+
+            //System.out.println("angularVelocitybefore: " + Arrays.toString(rigidBody.angularVelocity));
             //System.out.println("angularVelocity +: " + Arrays.toString(Math3d.mul(angularAcceleration, deltaTime)));
             //System.out.println("angularVelocityafter: " + Arrays.toString(rigidBody.angularVelocity));
-            System.out.println("Velocity: " + Arrays.toString(rigidBody.velocity));
+            //System.out.println("Velocity: " + Arrays.toString(rigidBody.velocity));
             //System.out.println("Forward: " + Arrays.toString(getNormalizedForwardVector(transform)));
             //  TEMP GROUND TODO REMOVE
             if (transform.matrixOffset[1][3] <= 0) {
@@ -233,23 +227,6 @@ public class Physics {
         return Math3d.add(negativeVelocity, wind);
     }
 
-    private static float[] calculateAirflowOverTheWing(float[] aircraftVelocity, Transform aircraftTransform) {
-        float[] worldPosition = Math3d.getVec3(aircraftTransform.matrixOffset);
-        float[] negativeVelocity = Math3d.mul(aircraftVelocity, -1);
-        float[] wind = Weather.getWindAtPosition(worldPosition);
-
-        float[] airflow = Math3d.add(negativeVelocity, wind);
-        float[] forwards = getNormalizedForwardVector(aircraftTransform);
-        float[] relAirflow = getRelVecInDirection(airflow, forwards);
-        return relAirflow;
-    }
-
-
-
-
-
-
-
     private static float[] calculateFormDrag(Surface surface, float[] aircraftVelocity, Transform aircraftTransform) {
         float[] airflow = calculateAirflow(new float[]{0, 0, 0}, aircraftVelocity);
 
@@ -276,12 +253,6 @@ public class Physics {
         );
 
     }
-    private static float[] getNormalizedRightVector(Transform transform) {
-        float[] up = new float[]{1, 0, 0, 0};
-        return Math3d.normalize(
-                Math3d.mul(transform.matrixRotate, up)
-        );
-    }
 
     private static float[] getCOGOffsetVector(Transform surfaceOffsetTransform, float[] cogOffset, Transform aircraftTransform) {
         // Convert the matrix to a vector
@@ -300,7 +271,7 @@ public class Physics {
     }
 
     private static float calculateThrust(Engine engine, float[] velocity) {
-        if (engine.getCurrentRPM() <= 0) {
+        if (engine.getCurrentRPM() <= 0) { // Engine is off prevent division by zero
             return 0;
         }
 
