@@ -20,13 +20,15 @@ import static org.lwjgl.glfw.GLFW.glfwGetKey;
 public class ControlledWingSurface extends WingSurface {
     private float flapAngle; // in rad
 
+
+
     private final int increaseAngleKey;
     private final int decreaseAngleKey;
 
-    final float MAX_FLAP_ANGLE;
-    final float MIN_FLAP_ANGLE;
+    private final float MAX_FLAP_ANGLE;
+    private final float MIN_FLAP_ANGLE;
 
-    public final float FLAP_MULTIPLIER = (float) (10 * Math.PI / 180); // TODO magic number
+    private final float FLAP_MULTIPLIER = (float) (10 * Math.PI / 180); // TODO magic number
 
     /**
      * Constructor for the ControlledWingSurface
@@ -100,33 +102,34 @@ public class ControlledWingSurface extends WingSurface {
         double dragCoefficient = CD_MIN + calculateLiftCoefficient(aoa)*calculateLiftCoefficient(aoa) / (Math.PI * ASPECT_RATIO * OSWALD_FACTOR);
         return (float) dragCoefficient;
     }
-
-    /**
-     * This method updates the flap angle of the wing surface.
-     * The flap angle is updated based on the user input.
-     * The flap angle is limited by the minAngle and maxAngle.
-     * The flap angle is used to calculate the lift coefficient of the wing surface.
-     * If the user presses the increaseAngleKey, the flap angle is set to the maxAngle.
-     * If the user presses the decreaseAngleKey, the flap angle is set to the minAngle.
-     * If the user does not press any key, the flap angle is set to 0.
-     *
-     *
-     * @param deltaTime The time since the last frame in seconds.
-     * @author Nikolas Kühnlein
-     */
-    @Override
-    public void onUpdate(float deltaTime){
-        long glfwWindow = Window.getGlfwWindowAddress();
-        if (glfwGetKey(glfwWindow, increaseAngleKey) == 1) {
-            flapAngle = MAX_FLAP_ANGLE;
-        }
-
-        else if (glfwGetKey(glfwWindow, decreaseAngleKey) == 1) {
-            flapAngle = MIN_FLAP_ANGLE;
-        }
-        else {
-            flapAngle = 0;
-        }
-
+    public float getFlapAngle() {
+        return flapAngle;
     }
+
+    public void setFlapAngle(float flapAngle) {
+        this.flapAngle = flapAngle;
+    }
+
+    public int getIncreaseAngleKey() {
+        return increaseAngleKey;
+    }
+
+    public int getDecreaseAngleKey() {
+        return decreaseAngleKey;
+    }
+
+    public float getMAX_FLAP_ANGLE() {
+        return MAX_FLAP_ANGLE;
+    }
+
+    public float getMIN_FLAP_ANGLE() {
+        return MIN_FLAP_ANGLE;
+    }
+
+    public float getFLAP_MULTIPLIER() {
+        return FLAP_MULTIPLIER;
+    }
+
+
+
 }

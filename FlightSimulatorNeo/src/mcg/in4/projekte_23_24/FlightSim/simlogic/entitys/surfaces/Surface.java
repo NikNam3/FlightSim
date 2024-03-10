@@ -13,7 +13,7 @@ import mcg.in4.projekte_23_24.FlightSim.simlogic.entitys.EntityBehavior;
  * @author Nikolas Kühnlein
  */
 
-public abstract class Surface extends EntityBehavior {
+public abstract class Surface {
     public final float[] NORMAL; // Normalized vector
     public final float SURFACE_AREA; // TODO magic number
 

@@ -1,10 +1,6 @@
 package mcg.in4.projekte_23_24.FlightSim.simlogic.entitys;
 
-import mcg.in4.projekte_23_24.FlightSim.engine.Window;
-
-import static org.lwjgl.glfw.GLFW.glfwGetKey;
-
-public class Engine extends EntityBehavior{
+public class Engine{
     private final float MAX_RPM;
     private float currentRPM = 0;
     private float setRPM = 0;
@@ -21,20 +17,6 @@ public class Engine extends EntityBehavior{
         RPMChangeRate = rpmChangeRate;
         DIAMETER = diameter;
         PITCH = pitch;
-    }
-
-    @Override
-    public void onUpdate(float deltaTime){
-        long glfwWindow = Window.getGlfwWindowAddress();
-        if (glfwGetKey(glfwWindow, increaseKey) == 1)
-            setRPM += 8f;
-        if (glfwGetKey(glfwWindow, decreaseKey) == 1)
-            setRPM -= 8f;
-
-        if (setRPM > MAX_RPM)
-            setRPM = MAX_RPM;
-        if (setRPM < 0)
-            setRPM = 0;
     }
 
     public float getCurrentRPM() {
@@ -57,5 +39,21 @@ public class Engine extends EntityBehavior{
     }
     public float getPitch() {
         return PITCH;
+    }
+
+    public int getIncreaseKey() {
+        return increaseKey;
+    }
+
+    public int getDecreaseKey() {
+        return decreaseKey;
+    }
+
+    public void setSetRPM(float v) {
+        setRPM = v;
+    }
+
+    public float getMaxRPM() {
+        return MAX_RPM;
     }
 }
