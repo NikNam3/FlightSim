@@ -1,6 +1,7 @@
 package mcg.in4.projekte_23_24.FlightSim.engine.terrain;
 
 
+import mcg.in4.projekte_23_24.FlightSim.engine.base.Math3d;
 import mcg.in4.projekte_23_24.FlightSim.engine.graphics.structures.LightingEnvironment;
 import mcg.in4.projekte_23_24.FlightSim.engine.graphics.structures.Program;
 import mcg.in4.projekte_23_24.FlightSim.engine.loading.ProgramLoader;
@@ -8,7 +9,9 @@ import mcg.in4.projekte_23_24.FlightSim.engine.loading.ProgramLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mcg.in4.projekte_23_24.FlightSim.engine.base.Math3d.add;
 import static mcg.in4.projekte_23_24.FlightSim.engine.base.Math3d.inverse;
+
 
 public class Terrain {
 
@@ -16,8 +19,11 @@ public class Terrain {
 
     private static List<CascadeLayer> cascadeLayers;
 
-    private static float offsetX = 0;
-    private static float offsetZ = 0;
+    private static float[] terrainOffset;
+
+    static{
+        terrainOffset = Math3d.vec3();
+    }
 
     public static void init(){
         shaderProgram = ProgramLoader.load("shaders/terrain/vert_terrain.txt", "shaders/terrain/frag_terrain.txt");
@@ -30,13 +36,9 @@ public class Terrain {
         cascadeLayers.add(layer1);
     }
 
-    public static float getHeightAtPoint(float x, float z){
-    //    return cascadeLayers.get(0).getHeight(x, z);
-        return 0.f;
-    }
-
-
     public static void render(LightingEnvironment lightingEnvironment, float[][] cameraModel, float[][] cameraProjection){
+        TerrainTileLoader.update();
+
         shaderProgram.makeActive();
         shaderProgram.setMat4("u_matrix_view", inverse(cameraModel));
         shaderProgram.setMat4("u_matrix_perspective", cameraProjection);
@@ -48,5 +50,9 @@ public class Terrain {
             layer.update(cameraModel[0][3], cameraModel[2][3]);
             layer.render(shaderProgram);
         }
+    }
+
+    public static void applyPositionShift(float[] offset){
+        terrainOffset = add(terrainOffset, offset);
     }
 }

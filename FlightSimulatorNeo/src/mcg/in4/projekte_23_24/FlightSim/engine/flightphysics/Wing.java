@@ -20,7 +20,7 @@ package mcg.in4.projekte_23_24.FlightSim.engine.flightphysics;
 
 public class Wing extends Surface{
     public final float aspectRatio;
-    public final float type;
+    public final int type; // 0: Normal, 1: Symmetric
 
     public float flapAngle;
 
@@ -45,7 +45,7 @@ public class Wing extends Surface{
      *
      * @author Nikolas Kühnlein
      */
-    public Wing(float[] offset, float[] normal, float area, float aspectRatio, float type) {
+    public Wing(float[] offset, float[] normal, float area, float aspectRatio, int type) {
         super(offset, normal, area);
         this.aspectRatio = aspectRatio;
         this.type = type;
@@ -73,6 +73,26 @@ public class Wing extends Surface{
         }
     }
 
+    /**
+     * Method to get the coefficient of drag
+     * This method implements the abstract method from the Surface class
+     * It calculates the drag coefficient using the formula:
+     *     CD_MIN + CL^2 / (PI * aspectRatio * OSWALD_FACTOR)
+     *     Where:
+     *      - CL is the coefficient of lift
+     *      - CD_MIN is the minimum drag coefficient
+     *      - aspectRatio is the aspect ratio of the wing
+     *      - OSWALD_FACTOR is the Oswald factor which is a constant approximately 0.8 for high wing aircraft
+     * @param aoa Angle of attack
+     * @return Coefficient of drag
+     *
+     * @author Nikolas Kühnlein
+     */
+    @Override
+    public float getCoefficientOfDrag(float aoa) {
+        double dragCoefficient = CD_MIN + getCoefficientOfLift(aoa)*getCoefficientOfLift(aoa) / (Math.PI * aspectRatio * OSWALD_FACTOR);
+        return (float) dragCoefficient;
+    }
     /**
      * Calculates the coefficient of lift for a normal wing
      * First it checks if the angle of attack is greater than 15 degrees
@@ -141,26 +161,5 @@ public class Wing extends Surface{
         // Cl = 2 * pi * aspect_ratio * effective_aoa / (aspect_ratio + 2)
         double liftCoefficient = 2*Math.PI * aspectRatio * (aoa + -flapAngle * FLAP_MULTIPLIER) / (aspectRatio + 2);
         return (float) liftCoefficient;
-    }
-
-    /**
-     * Method to get the coefficient of drag
-     * This method implements the abstract method from the Surface class
-     * It calculates the drag coefficient using the formula:
-     *     CD_MIN + CL^2 / (PI * aspectRatio * OSWALD_FACTOR)
-     *     Where:
-     *      - CL is the coefficient of lift
-     *      - CD_MIN is the minimum drag coefficient
-     *      - aspectRatio is the aspect ratio of the wing
-     *      - OSWALD_FACTOR is the Oswald factor which is a constant approximately 0.8 for high wing aircraft
-     * @param aoa Angle of attack
-     * @return Coefficient of drag
-     *
-     * @author Nikolas Kühnlein
-     */
-    @Override
-    public float getCoefficientOfDrag(float aoa) {
-        double dragCoefficient = CD_MIN + getCoefficientOfLift(aoa)*getCoefficientOfLift(aoa) / (Math.PI * aspectRatio * OSWALD_FACTOR);
-        return (float) dragCoefficient;
     }
 }

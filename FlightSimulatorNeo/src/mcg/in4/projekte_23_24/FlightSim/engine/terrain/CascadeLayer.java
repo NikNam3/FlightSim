@@ -1,21 +1,23 @@
 package mcg.in4.projekte_23_24.FlightSim.engine.terrain;
 
 
+
 import mcg.in4.projekte_23_24.FlightSim.engine.components.render.MeshArray;
 import mcg.in4.projekte_23_24.FlightSim.engine.graphics.structures.Mesh;
 import mcg.in4.projekte_23_24.FlightSim.engine.graphics.structures.Program;
-import mcg.in4.projekte_23_24.FlightSim.engine.graphics.structures.Texture2D;
 import mcg.in4.projekte_23_24.FlightSim.engine.loading.MeshArrayLoader;
-import mcg.in4.projekte_23_24.FlightSim.engine.loading.TextureLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static mcg.in4.projekte_23_24.FlightSim.engine.base.Math3d.*;
+import static mcg.in4.projekte_23_24.FlightSim.engine.base.Math3d.translation;
 import static org.lwjgl.opengl.GL41.*;
 
+/**
+ * Class representing a detail level of terrain
+ */
 class CascadeLayer {
     private final MeshArray baseMesh;
     private final Map<Integer, TerrainTile> tiles;
@@ -48,16 +50,10 @@ class CascadeLayer {
                 int coordinate = toTileCoordinate((short)playerTileX, (short)playerTileZ);
 
                 if (!tiles.containsKey(playerTileX << 16 | playerTileZ)) {
-                    String orthoFile = "content/terrain/orthos/lv" + level + "_" + playerTileX + "_" + playerTileZ + ".jpg";
-                    Texture2D orthoTexture = null;
-                    try {
-                        orthoTexture = TextureLoader.load(orthoFile);
-                    } catch (Exception ignored) {}
+                    String tileKey = "lv" + level + "_" + playerTileX + "_" + playerTileZ;
 
-                    TerrainTile tile = new TerrainTile(orthoTexture);
-
-                    String heightFile = "content/terrain/height_data/lv" + level + "_" + playerTileX + "_" + playerTileZ + ".txt";
-                  //  AsynchronousLoader2.push(new DOMLoadingProcess(heightFile, tile.heightMap));
+                    TerrainTile tile = new TerrainTile();
+                    TerrainTileLoader.enqueue(tile, tileKey);
 
                     tiles.put(coordinate, tile);
                 }
@@ -78,33 +74,6 @@ class CascadeLayer {
 
     }
 
-    /*
-    // TODO: Kommentieren
-    float getHeight(float x, float z){
-        x += originOffsetFromTerrainX;
-        z += originOffsetFromTerrainZ;
-
-        int tileX = (int)( x / (2000 * Math.pow(3, level)));
-        int tileZ = (int)(-z / (2000 * Math.pow(3, level)));
-
-        TerrainTile tile = tiles.get((tileX << 16) | tileZ);
-
-        if(tile == null)
-            return 0.0f;
-
-        float tilePositionMetersX = (float)(tileX * (2000 * Math.pow(3, level)));
-        float tilePositionMetersZ = -(float)(tileZ * (2000 * Math.pow(3, level)));
-
-        float xOnTile = x - tilePositionMetersX;
-        float zOnTile = z - tilePositionMetersZ;
-
-        float v = xOnTile /  (float)(2000 * Math.pow(3, level));
-        float u = zOnTile / -(float)(2000 * Math.pow(3, level));
-
-        return tile.heightMap.sample(u, v);
-    }
-     */
-
     void render(Program shaderProgram){
         shaderProgram.makeActive();
 
@@ -124,17 +93,27 @@ class CascadeLayer {
                 float shade = tileIdx / (float)tileCount;
                 shaderProgram.setFloat("u_shade", shade);
                 shaderProgram.setMat4("u_matrix_model", translation(offsetX - originOffsetFromTerrainX, -10 * level, -offsetY - originOffsetFromTerrainZ));
-                shaderProgram.setInt("u_has_albedo_map", 1);
-                shaderProgram.setInt("u_has_height_map", 1);
+
+
                 shaderProgram.setInt("u_albedo_map", 0);
                 shaderProgram.setInt("u_height_map", 1);
 
-                glActiveTexture(GL_TEXTURE0);
-                tile.albedoMap.makeActive();
-                /*
-                glActiveTexture(GL_TEXTURE1);
-                glBindTexture(GL_TEXTURE_2D, tile.heightMap.glId);
-                 */
+
+                if(tile.albedoMap != null) {
+                    glActiveTexture(GL_TEXTURE0);
+                    shaderProgram.setInt("u_has_albedo_map", 1);
+                    tile.albedoMap.makeActive();
+                }
+                else
+                    shaderProgram.setInt("u_has_albedo_map", 0);
+
+                if(tile.heightMap != null) {
+                    glActiveTexture(GL_TEXTURE1);
+                    shaderProgram.setInt("u_has_height_map", 0);
+                    tile.heightMap.makeActive();
+                }
+                else
+                    shaderProgram.setInt("u_has_height_map", 0);
 
                 for(Mesh submesh : baseMesh.submeshes) {
                     submesh.makeActive();
@@ -148,16 +127,20 @@ class CascadeLayer {
     }
 
     private void removeTile(int coordinate){
+        // TODO: Check if tile is being loaded
+
         if(!tiles.containsKey(coordinate))
             return;
         TerrainTile tile = tiles.get(coordinate);
         if(tile.albedoMap != null)
             tile.albedoMap.clearFromDevice();
-  //    tile.heightMap.destroy();
+        if(tile.heightMap != null)
+            tile.heightMap.clearFromDevice();
         tiles.remove(coordinate);
     }
 
     private int toTileCoordinate(short x, short z){
         return (x << 16) | z;
     }
+
 }

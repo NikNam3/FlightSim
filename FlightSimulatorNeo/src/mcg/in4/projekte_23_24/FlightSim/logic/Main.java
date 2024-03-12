@@ -47,6 +47,7 @@ public class Main {
         Terrain.init();
         AtmosphereEffect.init();
 
+        float[] totalCameraShift = vec3();
 
         float deltaTime;
         long lastFrameStartTime = System.nanoTime();
@@ -68,17 +69,22 @@ public class Main {
             for(int entity : scene.getAll()){
                 Physics.update(scene, entity, deltaTime);
             }
-            //updateCamera(scene, playerAircraft, deltaTime);
-            updateAircraftInput(scene, playerAircraft, deltaTime);
+            updateAircraftInput(scene, playerAircraft);
+
             // floating point error mitigation
-            // shiftPositionsOverThreshold(scene, cameraEntity, 100);
+            float[] cameraShift = shiftPositionsOverThreshold(scene, cameraEntity, 100);
+            totalCameraShift = add(cameraShift, totalCameraShift);
 
             float[][] cameraModel = Utils.getWorldSpaceModel(scene, cameraEntity);
-            float aspectRatio = Window.getContentArea()[0] / (float)Window.getContentArea()[1];
+            float aspectRatio     = Window.getContentArea()[0] / (float)Window.getContentArea()[1];
             float[][] cameraProj  = perspective(fov, .1f, 10000f, aspectRatio);
 
             AtmosphereEffect.listen(Window.getContentArea()[0], Window.getContentArea()[1]);
             SceneRenderer.render(scene, lightingEnvironment, cameraModel, cameraProj);
+
+            // Apply camera shift to the model matrix for every renderer that isn't using the scene system
+            cameraModel = mul(translation(totalCameraShift), cameraModel);
+
             Terrain.render(lightingEnvironment, cameraModel, cameraProj);
             AtmosphereEffect.keep();
             AtmosphereEffect.apply(lightingEnvironment, cameraModel, CLIP_START, CLIP_END, fov);
@@ -86,7 +92,14 @@ public class Main {
         }
     }
 
-    private static void shiftPositionsOverThreshold(Scene scene, int cameraEntity, float thresholdDistance){
+    /**
+     * Shifts all entities without parent, so that the camera ends up near the world origin
+     * @param scene The scene
+     * @param cameraEntity Entity of the camera
+     * @param thresholdDistance Distance of the camera from world origin for shift to take place
+     * @return The shift that was applied as a vector
+     */
+    private static float[] shiftPositionsOverThreshold(Scene scene, int cameraEntity, float thresholdDistance){
         float[][] cameraModel = Utils.getWorldSpaceModel(scene, cameraEntity);
         float[] cameraOffset  = vec3(cameraModel[0][3], cameraModel[1][3], cameraModel[2][3]);
         if(length(cameraOffset) > thresholdDistance){
@@ -97,9 +110,13 @@ public class Main {
                 Transform transform = scene.getComponent(entity, Transform.class);
                 transform.matrixPosition = mul(transform.matrixPosition, translation(mul(cameraOffset, -1)));
             }
+            // Apply shift to terrain
+            Terrain.applyPositionShift(cameraOffset);
+            return cameraOffset;
         }
+        return vec3();
     }
-    private static void updateAircraftInput(Scene scene, int aircraft, float deltaTime) {
+    private static void updateAircraftInput(Scene scene, int aircraft) {
         SurfaceModel surfaceModel = scene.getComponent(aircraft, SurfaceModel.class);
         EngineModel engineModel = scene.getComponent(aircraft, EngineModel.class);
 
@@ -132,7 +149,7 @@ public class Main {
         if (Input.isKeyDown(Input.KEY_ID_A)) {
             wing.flapAngle = -0.075f;
         } else if (Input.isKeyDown(Input.KEY_ID_D)) {
-            wing.flapAngle = +0.075f;
+            wing.flapAngle = 0.075f;
         } else {
             wing.flapAngle = 0;
         }
@@ -145,47 +162,6 @@ public class Main {
             engine.setRPM = engine.MAX_RPM / 2;
         }
 
-    }
-
-
-    private static void updateCamera(Scene scene, int camera, float deltaTime){
-        Transform transform = scene.getComponent(camera, Transform.class);
-
-        float moveSpeed = 5;
-        float rotSpeed  = 0.8f;
-
-        if(Input.isKeyDown(Input.KEY_ID_SHIFT)){
-            moveSpeed *= 50;
-            rotSpeed  *= 2f;
-        }
-
-        var deltaPositionVector = vec3();
-        if(Input.isKeyDown(Input.KEY_ID_W))
-            deltaPositionVector = add(deltaPositionVector, vec3(0, 0, -moveSpeed * deltaTime));
-        if(Input.isKeyDown(Input.KEY_ID_S))
-            deltaPositionVector = add(deltaPositionVector, vec3(0, 0,  moveSpeed * deltaTime));
-        if(Input.isKeyDown(Input.KEY_ID_A))
-            deltaPositionVector = add(deltaPositionVector, vec3(-moveSpeed * deltaTime));
-        if(Input.isKeyDown(Input.KEY_ID_D))
-            deltaPositionVector = add(deltaPositionVector, vec3(moveSpeed * deltaTime));
-        if(Input.isKeyDown(Input.KEY_ID_SPACE))
-            deltaPositionVector = add(deltaPositionVector, vec3(0, moveSpeed * deltaTime));
-        if(Input.isKeyDown(Input.KEY_ID_C))
-            deltaPositionVector = add(deltaPositionVector, vec3(0,-moveSpeed * deltaTime));
-
-
-        if(Input.isKeyDown(Input.KEY_ID_Q))
-            transform.matrixRotation = mul(rotationY(rotSpeed * deltaTime), transform.matrixRotation);
-        if(Input.isKeyDown(Input.KEY_ID_E))
-            transform.matrixRotation = mul(rotationY(rotSpeed * -deltaTime), transform.matrixRotation);
-        if(Input.isKeyDown(Input.KEY_ID_R))
-            transform.matrixRotation = mul(transform.matrixRotation, rotationX(rotSpeed * -deltaTime));
-        if(Input.isKeyDown(Input.KEY_ID_F))
-            transform.matrixRotation = mul(transform.matrixRotation, rotationX(rotSpeed * deltaTime));
-
-        var dpv4 = vec4(deltaPositionVector, 0);
-        deltaPositionVector = vec3(mul(transform.matrixRotation, dpv4));
-        transform.matrixPosition = mul(translation(deltaPositionVector), transform.matrixPosition);
     }
 
     private static int createCessna(Scene scene) throws Exception{
