@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FlightSimulatorNeo.iml" filepath="$PROJECT_DIR$/FlightSimulatorNeo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FSFinal.iml" filepath="$PROJECT_DIR$/FSFinal.iml" />
     </modules>
   </component>
 </project>

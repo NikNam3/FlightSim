@@ -1,15 +1,15 @@
 package mcg.in4.projekte_23_24.FlightSim.engine.terrain;
 
-import mcg.in4.projekte_23_24.FlightSim.engine.structures.HeightMap;
-import mcg.in4.projekte_23_24.FlightSim.engine.structures.Texture2D;
+
+import mcg.in4.projekte_23_24.FlightSim.engine.graphics.structures.Texture2D;
 
 class TerrainTile {
 
-    HeightMap heightMap;
-    Texture2D albedoMap;
+ //   HeightMap heightMap;
+    final Texture2D albedoMap;
 
-    public TerrainTile(){
-        heightMap = new HeightMap(0, null, 0);
-        albedoMap = new Texture2D();
+    public TerrainTile(Texture2D albedoMap){
+    //    heightMap = new HeightMap(0, null, 0);
+        this.albedoMap = albedoMap;
     }
 }
