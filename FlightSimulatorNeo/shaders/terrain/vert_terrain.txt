@@ -1,0 +1,28 @@
+#version 410
+
+layout(location = 0) in vec3 i_position;
+layout(location = 1) in vec3 i_normal;
+layout(location = 2) in vec2 i_uv;
+
+out float v_camera_dist;
+out vec3 v_normal;
+out vec2 v_uv;
+
+uniform mat4 u_matrix_perspective;
+uniform mat4 u_matrix_view;
+uniform mat4 u_matrix_model;
+
+uniform sampler2D u_height_map;
+uniform bool u_has_height_map;
+
+void main(){
+    float height = 0.0f;
+    if(u_has_height_map)
+        height = texture(u_height_map, vec2(i_uv.x, i_uv.y)).r;
+    vec3 truePos = i_position + vec3(0, height, 0);
+    vec4 positionScreenSpace = u_matrix_view * u_matrix_model * vec4(truePos, 1);
+    gl_Position = u_matrix_perspective * positionScreenSpace;
+    v_normal   = (u_matrix_model * vec4(i_normal, 0)).xyz;
+    v_camera_dist = length(positionScreenSpace.xyz);
+    v_uv = i_uv;
+}
