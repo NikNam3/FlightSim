@@ -12,7 +12,15 @@ import static mcg.in4.projekte_23_24.FlightSim.engine.base.Math3d.*;
 
 import static org.lwjgl.opengl.GL41.*;
 
+/**
+ * Class to render a scene
+ * @version 1.0
+ * @since 1.0
+ * @author Vincent Lahmann
+ *
+ */
 public class SceneRenderer {
+
 
     private static Program objectShader;
 
@@ -28,6 +36,8 @@ public class SceneRenderer {
      * @param scene Scene that will be rendered
      * @param cameraModel Model-matrix of camera
      * @param cameraPerspective Perspective-Matrix of camera
+     *
+     * @author Vincent Lahmann
      */
     public static void render(Scene scene, LightingEnvironment lightingEnvironment, float[][] cameraModel, float[][] cameraPerspective){
         objectShader.makeActive();
@@ -55,6 +65,12 @@ public class SceneRenderer {
         }
     }
 
+    /**
+     * Renders a mesh array
+     * @param meshArray MeshArray that will be rendered
+     *
+     * @author Vincent Lahmann
+     */
     private static void renderMeshArray(MeshArray meshArray){
         for(Mesh mesh : meshArray.submeshes){
             mesh.makeActive();

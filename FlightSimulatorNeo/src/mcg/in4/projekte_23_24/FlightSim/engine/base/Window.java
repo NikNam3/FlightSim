@@ -7,7 +7,9 @@ import static org.lwjgl.opengl.GL41.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 /**
- * TODO add description (remember to put a author for every method)
+ * This class is used to create a window and manage it
+ *
+ * TODO
  */
 
 public class Window {

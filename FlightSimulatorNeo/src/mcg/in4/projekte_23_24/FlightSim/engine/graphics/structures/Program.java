@@ -4,6 +4,11 @@ import static org.lwjgl.opengl.GL41.*;
 
 /**
  * Wrapper class for OpenGL shader programs
+ *
+ * @version 1.0
+ * @since 1.0
+ * @see GLStructure
+ * @author Vincent Lahmann
  */
 public class Program extends GLStructure {
     public Program(int glApiId) {
@@ -24,6 +29,8 @@ public class Program extends GLStructure {
      * Uploads a uniform float for access on the device
      * @param name name of the uniform variable
      * @param val value of the uniform variable
+     *
+     * @author Vincent Lahmann
      */
     public void setFloat(String name, float val){
         makeActive();
@@ -36,6 +43,8 @@ public class Program extends GLStructure {
      * Uploads a uniform vec3 for access on the device
      * @param name name of the uniform variable
      * @param val value of the uniform variable
+     *
+     * @author Vincent Lahmann
      */
     public void setVec3(String name, float[] val){
         makeActive();
@@ -48,6 +57,8 @@ public class Program extends GLStructure {
      * Uploads a uniform float for access on the device
      * @param name name of the uniform variable
      * @param val value of the uniform variable
+     *
+     * @author Vincent Lahmann
      */
     public void setInt(String name, int val){
         makeActive();
@@ -60,6 +71,8 @@ public class Program extends GLStructure {
      * Uploads a uniform 4x4 matrix for access on the device
      * @param name name of the uniform variable
      * @param val value of the uniform variable
+     *
+     * @author Vincent Lahmann
      */
     public void setMat4(String name, float[][] val){
         makeActive();

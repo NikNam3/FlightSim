@@ -2,6 +2,14 @@ package mcg.in4.projekte_23_24.FlightSim.engine.graphics.structures;
 
 import static org.lwjgl.opengl.GL41.*;
 
+/**
+ * Class to represent a FrameBuffer
+ * Extends GLStructure as it is a GL object
+ *
+ * @version 1.0
+ * @since 1.0
+ * @author Vincent Lahmann
+ */
 public class FrameBuffer extends GLStructure{
     public FrameBuffer() {
         super(glGenFramebuffers());
@@ -13,6 +21,8 @@ public class FrameBuffer extends GLStructure{
      * @param height Height of the texture
      * @param slotIdx Index of the attachment slot
      * @return The attached texture
+     *
+     * @author Vincent Lahmann
      */
     public Texture2D attachmentColorBuffer(int width, int height, int slotIdx){
         // create the texture
@@ -35,6 +45,8 @@ public class FrameBuffer extends GLStructure{
      * @param width width of the texture
      * @param height height of the texture
      * @return The attached texture
+     *
+     * @author Vincent Lahmann
      */
     public Texture2D attachDepthBuffer(int width, int height){
         // create the texture
@@ -56,17 +68,26 @@ public class FrameBuffer extends GLStructure{
 
     /**
      * Clears all the buffers
+     * @author Vincent Lahmann
      */
     public void clearBuffers(){
         makeActive();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     }
 
+    /**
+     * Makes the FrameBuffer active
+     * @author Vincent Lahmann
+     */
     @Override
     public void makeActive() {
         glBindFramebuffer(GL_FRAMEBUFFER, glApiId);
     }
 
+    /**
+     * Clears the FrameBuffer from the GPU
+     * @author Vincent Lahmann
+     */
     @Override
     public void clearFromDevice() {
         glDeleteFramebuffers(glApiId);

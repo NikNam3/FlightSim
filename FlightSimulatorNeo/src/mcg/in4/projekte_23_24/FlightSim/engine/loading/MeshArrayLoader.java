@@ -16,6 +16,11 @@ import static org.lwjgl.opengl.GL41.*;
 
 /**
  * Class for loading structures on main thread
+ *
+ * @version 1.0
+ * @since 1.0
+ * @see MeshArray
+ * @author Vincent Lahmann
  */
 public class MeshArrayLoader {
     /**
@@ -24,6 +29,9 @@ public class MeshArrayLoader {
      * @param file Path of source file. Must be in wavefront obj format
      * @return Data from file as MeshArray
      * @throws Exception If an error occurs while loading
+     *
+     * @see MeshArray
+     * @author Vincent Lahmann
      */
     public static MeshArray loadMesh(String file) throws Exception {
         String parentDir = getParentDirectory(file);
@@ -116,6 +124,14 @@ public class MeshArrayLoader {
         return result;
     }
 
+    /**
+     * Converts data to Mesh
+     * @param file Path of source file. Must be in wavefront obj format
+     * @return Data from file as MeshArray
+     * @throws Exception If an error occurs while loading
+     *
+     * @author Vincent Lahmann
+     */
     private static Map<String, Material> loadMtlLib(String file) throws Exception{
         String parentPath = getParentDirectory(file);
         Map<String, Material> result = new HashMap<>();
@@ -143,10 +159,27 @@ public class MeshArrayLoader {
         return result;
     }
 
+    /**
+     * Returns the parent directory of a file
+     * @param dir Path of file
+     * @return Parent directory of file
+     *
+     * @author Vincent Lahmann
+     */
     private static String getParentDirectory(String dir){
         return Paths.get(dir).getParent().toString();
     }
 
+    /**
+     * Converts position, normal and uv data to a Mesh
+     * @param positionList  List of position data
+     * @param normalList   List of normal data
+     * @param uvList      List of uv data
+     * @param material   Material of mesh
+     * @return Mesh
+     *
+     * @author Vincent Lahmann
+     */
     private static Mesh toMesh(List<Float> positionList, List<Float> normalList, List<Float> uvList, Material material){
         float[] positions = new float[positionList.size()];
         for(int idx = 0; idx < positionList.size(); idx++) {
@@ -174,6 +207,17 @@ public class MeshArrayLoader {
         return new Mesh(glId, vertexCount, material);
     }
 
+    /**
+     * Adds a vertex buffer to the current vertex array object
+     * @param data Data to add
+     * @param index Index of vertex attribute
+     * @param count Number of components per vertex attribute
+     * @param normalized If the data should be normalized
+     * @param stride Offset between consecutive vertex attributes
+     * @param offset Offset of the first component of the first vertex attribute
+     *
+     * @author Vincent Lahmann
+     */
     private static void addVb(float[] data, int index, int count, boolean normalized, int stride, int offset) {
         int vboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboId);

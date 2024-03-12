@@ -6,7 +6,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Helper class for mouse and key input
  * @version 1.0
  * @since 1.0
- * @author Maximo, Vincent
+ * @author Maximo Tewes, Vincent Lahmann
  */
 public class Input {
 

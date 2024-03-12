@@ -9,6 +9,15 @@ import mcg.in4.projekte_23_24.FlightSim.engine.loading.ProgramLoader;
 import static org.lwjgl.opengl.GL41.*;
 import static mcg.in4.projekte_23_24.FlightSim.engine.base.Math3d.*;
 
+/**
+ * Class for rendering the atmosphere effect<br>
+ * The atmosphere effect is a post processing effect that simulates the atmosphere of a planet<br>
+ * The effect is applied to the screen after all other rendering calls<br>
+ *
+ * @version 1.0
+ * @since 1.0
+ * @author Vincent Lahmann
+ */
 public class AtmosphereEffect {
     private static int quadVaoId;
     private static Program   shaderProgram;
@@ -20,6 +29,8 @@ public class AtmosphereEffect {
 
     /**
      * Initializes variables<br>Must be the first function called in this class
+     *
+     * @author Vincent Lahmann
      */
     public static void init(){
         shaderProgram = ProgramLoader.load("shaders/atmosphere/atmosphere_vert.txt", "shaders/atmosphere/atmosphere_frag.txt");
@@ -33,6 +44,8 @@ public class AtmosphereEffect {
      * Method must be called each frame before calling apply
      * @param width Current width of content area (usually width of window)
      * @param height Current height of content area (usually height of window)
+     *
+     * @author Vincent Lahmann
      */
     public static void listen(int width, int height){
         frameBuffer.makeActive();
@@ -51,6 +64,8 @@ public class AtmosphereEffect {
 
     /**
      * Reverts listen<br>Everything after calling this method will be drawn to the screen
+     *
+     * @author Vincent Lahmann
      */
     public static void keep(){
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -63,6 +78,8 @@ public class AtmosphereEffect {
      * @param nearClip The distance of the near clipping plane used for all other rendering calls
      * @param farClip The distance of the far clipping plane used for all other rendering calls
      * @param fov The FOV of the camera in radians
+     *
+     * @author Vincent Lahmann
      */
     public static void apply(LightingEnvironment lightingEnvironment, float[][] cameraModelMatrix, float nearClip, float farClip, float fov){
         keep();
@@ -101,6 +118,10 @@ public class AtmosphereEffect {
     }
 
 
+    /**
+     * Creates a quad vertex array
+     * @author Vincent Lahmann
+     */
     private static void createQuadVertexArray(){
         quadVaoId = glGenVertexArrays();
         glBindVertexArray(quadVaoId);
@@ -114,6 +135,10 @@ public class AtmosphereEffect {
         glBindVertexArray(0);
     }
 
+    /**
+     * Destroys the Buffered Textures
+     * @author Vincent Lahmann
+     */
     private static void destroyBufferTextures(){
         if(colorBufferTexture != null)
             colorBufferTexture.clearFromDevice();

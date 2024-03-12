@@ -92,10 +92,12 @@ public class Math3d {
     }
 
     /**
-     * TODO: Add description
-     * @param vec
-     * @param supplement
-     * @return
+     * Creates a 4D vector from a 3D vector and a supplement
+     * @param vec vector
+     * @param supplement supplement
+     * @return the 4x1 vector
+     *
+     * @author Vincent Lahmann
      */
     public static float[] vec4(float[] vec, float ... supplement){
         if(vec.length >= 4){
@@ -299,12 +301,13 @@ public class Math3d {
     }
 
     /**
-     * TODO: add description
-     * @param fov
-     * @param zNear
-     * @param zFar
-     * @param a
-     * @return
+     * Calculates the perspective projection matrix
+     * @param fov field of view in radians
+     * @param zNear near plane
+     * @param zFar far plane
+     * @param a aspect ratio
+     * @return perspective projection matrix
+     *
      * @author Vincent Lahmann
      */
     public static float[][] perspective(float fov, float zNear, float zFar, float a){
@@ -317,9 +320,9 @@ public class Math3d {
     }
 
     /**
-     * TODO: add description
-     * @param xyz
-     * @return
+     * Translates (creates) a 4x4 matrix
+     * @param xyz translation values
+     * @return translated 4x4 matrix
      *
      * @author Vincent Lahmann
      */

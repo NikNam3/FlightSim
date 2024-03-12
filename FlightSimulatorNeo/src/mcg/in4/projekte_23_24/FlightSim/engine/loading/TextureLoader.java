@@ -9,7 +9,22 @@ import static org.lwjgl.opengl.GL11.GL_REPEAT;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
 
+/**
+ * Class for loading a texture from a file
+ * @version 1.0
+ * @since 1.0
+ *
+ * @author Vincent Lahmann
+ */
 public class TextureLoader {
+    /**
+     * Load a texture from a file
+     * @param file File path
+     * @return Texture2D object
+     * @throws Exception If the file could not be read
+     *
+     * @author Vincent Lahmann
+     */
     public static Texture2D load(String file) throws Exception{
         int[] widthA    = {0};
         int[] heightA   = {0};

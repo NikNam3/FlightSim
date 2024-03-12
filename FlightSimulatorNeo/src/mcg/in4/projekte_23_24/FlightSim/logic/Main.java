@@ -19,8 +19,18 @@ import mcg.in4.projekte_23_24.FlightSim.engine.terrain.Terrain;
 
 import static mcg.in4.projekte_23_24.FlightSim.engine.base.Math3d.*;
 
+/**
+ * This is the Main class of the FlightSim project.
+ * It creates a window and initializes the input.
+ * It contains the main method which starts the main loop.
+ *
+ * The main loop updates the delta time and checks the input. As well as updating the physics and rendering the scene.
+ *
+ * @version 1.0
+ * @since 1.0
+ * @author Nikolas Kühnlein, Vincent Lahmann, Maximo Tewes, Theo Kamp
+ */
 public class Main {
-
     public static final float CLIP_START = 0.1f;
     public static final float CLIP_END   = 10000.f;
 
@@ -34,8 +44,8 @@ public class Main {
      *
      * In the main loop the delta time is updated and the input is checked.
      *
-     * @param args
-     * @throws Exception
+     * @param args The command line arguments
+     * @throws Exception If a GLFW error occurs (ex. a mesh could not be loaded)
      */
     public static void main(String[] args) throws Exception {
         // Create a window and initialize the input

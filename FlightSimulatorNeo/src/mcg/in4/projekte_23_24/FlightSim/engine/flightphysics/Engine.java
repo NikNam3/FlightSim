@@ -22,8 +22,6 @@ public class Engine {
      * @param rpm_change_rate RPM change rate
      * @param diameter Diameter of the engine
      * @param pitch Pitch of the engine
-     * @version 1.0
-     * @since 1.0
      * @author Nikolas Kühnlein
      */
     public Engine(float max_rpm, float rpm_change_rate, float diameter, float pitch) {
