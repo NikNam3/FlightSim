@@ -24,11 +24,25 @@ public class Main {
     public static final float CLIP_START = 0.1f;
     public static final float CLIP_END   = 10000.f;
 
+    /**
+     * This is the Main method of the FlightSim project.
+     *
+     * It creates a window and initializes the input.
+     * Then it creates a scene and adds a camera and a player aircraft to it.
+     * Then it initializes the lighting environment, the scene renderer, the terrain and the atmosphere effect.
+     * Then some variables which are used in the main loop are initialized and the main loop is started.
+     *
+     * In the main loop the delta time is updated and the input is checked.
+     *
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
+        // Create a window and initialize the input
         Window.create(500, 500, "FS");
         Input.init(Window.getGlfwWindowAddress());
 
-
+        // Create a scene and add a camera and a player aircraft to it
         Scene scene = new Scene();
         int cameraEntity = scene.createEntity();
         scene.addComponent(cameraEntity, new Transform(), Transform.class);
@@ -37,7 +51,7 @@ public class Main {
         int playerAircraft = createCessna(scene);
         scene.adopt(playerAircraft, cameraEntity);
 
-
+        // Initialize the lighting environment, the scene renderer, the terrain and the atmosphere effect
         float fov = (float)Math.toRadians(90.f);
 
         LightingEnvironment lightingEnvironment = new LightingEnvironment();
@@ -47,10 +61,13 @@ public class Main {
         Terrain.init();
         AtmosphereEffect.init();
 
+        // Initialize some variables which are used in the main loop
         float[] totalCameraShift = vec3();
 
         float deltaTime;
         long lastFrameStartTime = System.nanoTime();
+
+        // Start the main loop
         while(!Window.exitRequested()){
             Window.newFrame();
 
@@ -61,20 +78,20 @@ public class Main {
             deltaTime = Math.min(deltaTime, 1 / 20.f);
             lastFrameStartTime = currentTimeNano;
 
-            if(Input.isKeyDown(Input.KEY_ID_M))
-                lightingEnvironment.increaseTimeOfDay( 0.1f * deltaTime);
-            if(Input.isKeyDown(Input.KEY_ID_N))
-                lightingEnvironment.increaseTimeOfDay(-0.1f * deltaTime);
+            // checking input
+            updateEnvironmentInput(lightingEnvironment, deltaTime);
+            updateAircraftInput(scene, playerAircraft);
 
+            // updating physics
             for(int entity : scene.getAll()){
                 Physics.update(scene, entity, deltaTime);
             }
-            updateAircraftInput(scene, playerAircraft);
 
             // floating point error mitigation
             float[] cameraShift = shiftPositionsOverThreshold(scene, cameraEntity, 100);
             totalCameraShift = add(cameraShift, totalCameraShift);
 
+            // rendering
             float[][] cameraModel = Utils.getWorldSpaceModel(scene, cameraEntity);
             float aspectRatio     = Window.getContentArea()[0] / (float)Window.getContentArea()[1];
             float[][] cameraProj  = perspective(fov, .1f, 10000f, aspectRatio);
@@ -98,6 +115,8 @@ public class Main {
      * @param cameraEntity Entity of the camera
      * @param thresholdDistance Distance of the camera from world origin for shift to take place
      * @return The shift that was applied as a vector
+     *
+     * @author Vincent Lahmann
      */
     private static float[] shiftPositionsOverThreshold(Scene scene, int cameraEntity, float thresholdDistance){
         float[][] cameraModel = Utils.getWorldSpaceModel(scene, cameraEntity);
@@ -116,6 +135,24 @@ public class Main {
         }
         return vec3();
     }
+
+    /**
+     * This method handles the Keyboard input for the aircraft
+     * It updates the flap angle of the corresponding flaps
+     * It also updates the engine power
+     *
+     * if the W key is pressed, the planes pulls up
+     * if the S key is pressed, the plane pushes down
+     * if the A key is pressed, the plane rolls left
+     * if the D key is pressed, the plane rolls right
+     * if the R key is pressed, the plane increases the engine power
+     * if the F key is pressed, the plane decreases the engine power
+     *
+     * @param scene The scene in which the aircraft is located
+     * @param aircraft The entity of the aircraft
+     *
+     * @author Nikolas Kühnlein
+     */
     private static void updateAircraftInput(Scene scene, int aircraft) {
         SurfaceModel surfaceModel = scene.getComponent(aircraft, SurfaceModel.class);
         EngineModel engineModel = scene.getComponent(aircraft, EngineModel.class);
@@ -164,6 +201,46 @@ public class Main {
 
     }
 
+    /**
+     * This method handles the Keyboard input for the environment
+     * It updates the time of day
+     * if the M key is pressed, the time of day increases
+     * if the N key is pressed, the time of day decreases
+     *
+     * @param lightingEnvironment The lighting environment
+     * @param deltaTime The time that has passed since the last frame
+     *
+     * @author Nikolas Kühnlein
+     */
+    private static void updateEnvironmentInput(LightingEnvironment lightingEnvironment, float deltaTime) {
+        if(Input.isKeyDown(Input.KEY_ID_M))
+            lightingEnvironment.increaseTimeOfDay( 0.1f * deltaTime);
+        if(Input.isKeyDown(Input.KEY_ID_N))
+            lightingEnvironment.increaseTimeOfDay(-0.1f * deltaTime);
+    }
+
+    /**
+     * This method creates a cessna172 aircraft
+     * First the entity is created
+     * Then the components are added
+     *  - Transform
+     *  - SurfaceModel
+     *    - left_outer_wing
+     *    - left_inner_wing
+     *    - right_outer_wing
+     *    - right_inner_wing
+     *    - left_horizontal_stabilizer
+     *    - right_horizontal_stabilizer
+     *    - vertical_stabilizer
+     *  - EngineModel
+     *    - main_engine
+     *  - RigidBody
+     *  - Aircraft Mesh
+     *
+     * @param scene The scene in which the aircraft is located
+     * @return The entity of the aircraft
+     * @throws Exception throws an exception if the mesh could not be loaded
+     */
     private static int createCessna(Scene scene) throws Exception{
         int root = scene.createEntity();
 
