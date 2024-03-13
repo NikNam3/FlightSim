@@ -43,6 +43,7 @@ public class Input {
     public static final int KEY_ID_DOWN  = GLFW_KEY_DOWN;
     public static final int KEY_ID_LEFT  = GLFW_KEY_LEFT;
     public static final int KEY_ID_RIGHT = GLFW_KEY_RIGHT;
+    public static final int KEY_ID_ESCAPE = GLFW_KEY_ESCAPE;
 
     /**
      * address of glfw window
