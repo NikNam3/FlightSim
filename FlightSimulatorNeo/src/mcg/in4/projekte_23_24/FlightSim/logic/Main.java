@@ -48,6 +48,13 @@ public class Main {
      * @throws Exception If a GLFW error occurs (ex. a mesh could not be loaded)
      */
     public static void main(String[] args) throws Exception {
+        System.out.println("------------------------- FlightSim --------------------------");
+        System.out.println(" | Welcome to our little flight simulator!");
+        System.out.println(" | You can Control the aircraft with the W, A, S and D keys. |");
+        System.out.println(" | You can control the engine with the R and F keys.         |");
+        System.out.println(" | You can control the time of day with the N and M keys.    |");
+        System.out.println(" | Have fun!                                                 |");
+        System.out.println(" -------------------------------------------------------------");
         // Create a window and initialize the input
         Window.create(500, 500, "FS");
         Input.init(Window.getGlfwWindowAddress());

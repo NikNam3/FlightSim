@@ -7,9 +7,11 @@ import static org.lwjgl.opengl.GL41.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 /**
- * This class is used to create a window and manage it
+ * Static class for handling basic window operations
  *
- * TODO
+ * @version 1.0
+ * @since 1.0
+ * @author Vincent Lahmann
  */
 
 public class Window {
@@ -44,28 +46,55 @@ public class Window {
         });
     }
 
+    /**
+     * Sets the OpenGL viewport to fill out the entire window
+     * @author Vincent Lahmann
+     */
+
     public static void fitViewport(){
         int[] contentArea = getContentArea();
         glViewport(0, 0, contentArea[0], contentArea[1]);
     }
 
+    /**
+     * Gets the current content area<br>[0] = pixel count x<br>[1] = pixel count y<br>
+     * @return The current content area
+     *
+     * @author Vincent Lahmann
+     */
     public static int[] getContentArea(){
         return new int[]{width, height};
     }
 
+    /**
+     * Clears screen buffers and polls all glfw events
+     * @author Vincent Lahmann
+     */
     public static void newFrame(){
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
+    /**
+     * Displays everything that was draw to the screen buffer after newFrame()
+     * @author Vincent Lahmann
+     */
     public static void showFrame(){
         glfwSwapBuffers(glfwWindowAddress);
     }
 
+    /**
+     * @return The active glfw window address
+     * @author Vincent Lahmann
+     */
     public static long getGlfwWindowAddress(){
         return glfwWindowAddress;
     }
 
+    /**
+     * @return True if the user has pressed the X button
+     * @author Vincent Lahmann
+     */
     public static boolean exitRequested(){
         return glfwWindowShouldClose(glfwWindowAddress);
     }
