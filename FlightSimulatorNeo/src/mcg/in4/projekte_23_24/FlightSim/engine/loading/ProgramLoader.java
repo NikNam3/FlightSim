@@ -10,6 +10,13 @@ import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
 
+/**
+ * Class for loading a shader program
+ * @version 1.0
+ * @since 1.0
+ * @see Program
+ * @author Vincent Lahmann
+ */
 public class ProgramLoader {
     public static Program load(String vertexFile, String fragmentFile){
         String vertSource = fileToString(vertexFile);
@@ -28,6 +35,15 @@ public class ProgramLoader {
         return new Program(programId);
     }
 
+    /**
+     * Compiles a shader from GLSL source code
+     * @param type Type of shader
+     * @param source Source code
+     * @return Shader id
+     *
+     * @author Vincent Lahmann
+     */
+
     private static int compileShader(int type, String source) {
         int shaderId = glCreateShader(type);
         glShaderSource(shaderId, source);
@@ -42,6 +58,13 @@ public class ProgramLoader {
         return shaderId;
     }
 
+    /**
+     * Reads a file and returns its content as string
+     * @param file Path of file
+     * @return Content of file
+     *
+     * @author Vincent Lahmann
+     */
     private static String fileToString(String file){
         String lines = null;
         try {

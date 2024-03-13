@@ -33,7 +33,7 @@ public class AtmosphereEffect {
      * @author Vincent Lahmann
      */
     public static void init(){
-        shaderProgram = ProgramLoader.load("shaders/atmosphere/atmosphere_vert.txt", "shaders/atmosphere/atmosphere_frag.txt");
+        shaderProgram = ProgramLoader.load("shaders/atmosphere/atmosphere_vertex.glsl", "shaders/atmosphere/atmosphere_fragment.glsl");
         frameBuffer   = new FrameBuffer();
         createQuadVertexArray();
     }

@@ -14,15 +14,20 @@ uniform mat4 u_matrix_model;
 
 uniform sampler2D u_height_map;
 uniform bool u_has_height_map;
+uniform float u_sinking_threshold;
 
 void main(){
     float height = 0.0f;
     if(u_has_height_map)
         height = texture(u_height_map, vec2(i_uv.x, i_uv.y)).r;
+
+    vec3 cameraPositionXZ = vec3(inverse(u_matrix_view)[3][0], 0, inverse(u_matrix_view)[3][2]);
+    float distFromCameraFoot = distance(cameraPositionXZ, (u_matrix_model * vec4(i_position, 1)).xyz);
+    if(distFromCameraFoot < u_sinking_threshold)
+        height -= 500;
+
     vec3 truePos = i_position + vec3(0, height, 0);
-    vec4 positionScreenSpace = u_matrix_view * u_matrix_model * vec4(truePos, 1);
-    gl_Position = u_matrix_perspective * positionScreenSpace;
+    gl_Position = u_matrix_perspective * u_matrix_view * u_matrix_model * vec4(truePos, 1);
     v_normal   = (u_matrix_model * vec4(i_normal, 0)).xyz;
-    v_camera_dist = length(positionScreenSpace.xyz);
     v_uv = i_uv;
 }

@@ -104,7 +104,7 @@ public class Main {
             // rendering
             float[][] cameraModel = Utils.getWorldSpaceModel(scene, cameraEntity);
             float aspectRatio     = Window.getContentArea()[0] / (float)Window.getContentArea()[1];
-            float[][] cameraProj  = perspective(fov, .1f, 10000f, aspectRatio);
+            float[][] cameraProj  = perspective(fov, CLIP_START, CLIP_END, aspectRatio);
 
             AtmosphereEffect.listen(Window.getContentArea()[0], Window.getContentArea()[1]);
             SceneRenderer.render(scene, lightingEnvironment, cameraModel, cameraProj);
@@ -112,7 +112,7 @@ public class Main {
             // Apply camera shift to the model matrix for every renderer that isn't using the scene system
             cameraModel = mul(translation(totalCameraShift), cameraModel);
 
-            Terrain.render(lightingEnvironment, cameraModel, cameraProj);
+            Terrain.updateAndRender(lightingEnvironment, cameraModel, cameraProj);
             AtmosphereEffect.keep();
             AtmosphereEffect.apply(lightingEnvironment, cameraModel, CLIP_START, CLIP_END, fov);
             Window.showFrame();
@@ -139,8 +139,6 @@ public class Main {
                 Transform transform = scene.getComponent(entity, Transform.class);
                 transform.matrixPosition = mul(transform.matrixPosition, translation(mul(cameraOffset, -1)));
             }
-            // Apply shift to terrain
-            Terrain.applyPositionShift(cameraOffset);
             return cameraOffset;
         }
         return vec3();

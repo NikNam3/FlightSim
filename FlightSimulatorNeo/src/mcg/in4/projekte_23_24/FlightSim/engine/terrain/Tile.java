@@ -6,7 +6,7 @@ import mcg.in4.projekte_23_24.FlightSim.engine.graphics.structures.Texture2D;
 /**
  * Structure for holding the texture data of a terrain tile
  */
-class TerrainTile {
+class Tile {
     Texture2D albedoMap;
     Texture2D heightMap;
 }

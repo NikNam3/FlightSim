@@ -10,18 +10,15 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT;
 import static org.lwjgl.opengl.EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_REPEAT;
-import static org.lwjgl.opengl.GL30.GL_R32F;
-import static org.lwjgl.opengl.GL30.glGenerateMipmap;
+import static org.lwjgl.opengl.GL41.*;
 
 /**
- * Asynchronous Loader class for terrain tiles
+ * Loader for asynchronous loading of terrain tiles
  */
-class TerrainTileLoader {
-    private static final Map<String, AsynchronousTextureLoader> albedoLoadingProcesses;
-    private static final Map<String, AsynchronousTextureLoader> heightLoadingProcesses;
-    private static final Map<String, TerrainTile> loadingResultTiles;
+class TileLoader {
+    private static final Map<String, HostLoaderAlbedo> albedoLoadingProcesses;
+    private static final Map<String, HostLoaderHeight> heightLoadingProcesses;
+    private static final Map<String, Tile> loadingResultTiles;
 
     static{
         albedoLoadingProcesses = new HashMap<>();
@@ -29,11 +26,16 @@ class TerrainTileLoader {
         loadingResultTiles     = new HashMap<>();
     }
 
-    static void enqueue(TerrainTile tile, String tileKey){
+    /**
+     * Starts a new loading process
+     * @param tile The tile which will be loaded
+     * @param tileKey The key of the tile - e.g. lv0_2_3
+     */
+    static void enqueue(Tile tile, String tileKey){
         String albedoFile = "content/terrain/orthos/" + tileKey + ".jpg";
         String heightFile = "content/terrain/heights/" + tileKey + ".png";
-        AsynchronousTextureLoader albedoLoader = new AsynchronousTextureLoader(albedoFile);
-        AsynchronousTextureLoader heightLoader = new AsynchronousTextureLoader(heightFile);
+        HostLoaderAlbedo albedoLoader = new HostLoaderAlbedo(albedoFile);
+        HostLoaderHeight heightLoader = new HostLoaderHeight(heightFile);
 
         albedoLoader.start();
         heightLoader.start();
@@ -43,6 +45,9 @@ class TerrainTileLoader {
         loadingResultTiles.put(tileKey, tile);
     }
 
+    /**
+     * Checks the status of every loading process<br>Writes data to the tile and uploads graphics structure to the device
+     */
     static void update(){
         updateAlbedoLoading();
         updateHeightLoading();
@@ -56,6 +61,11 @@ class TerrainTileLoader {
             loadingResultTiles.remove(key);
     }
 
+    /**
+     * Checks if a tile is currently being loaded
+     * @param key Key of the tile
+     * @return True if tile is loading right now
+     */
     static boolean isTileBeingLoaded(String key){
         return loadingResultTiles.containsKey(key);
     }
@@ -64,7 +74,7 @@ class TerrainTileLoader {
         List<String> removalQueue = new ArrayList<>();
 
         for(String tileKey : albedoLoadingProcesses.keySet()){
-            AsynchronousTextureLoader loader = albedoLoadingProcesses.get(tileKey);
+            HostLoaderAlbedo loader = albedoLoadingProcesses.get(tileKey);
             if(loader.isAlive())
                 continue;
             if(loader.wasSuccessful()) {
@@ -80,7 +90,7 @@ class TerrainTileLoader {
     private static void updateHeightLoading(){
         List<String> removalQueue = new ArrayList<>();
         for(String tileKey : heightLoadingProcesses.keySet()){
-            AsynchronousTextureLoader loader = heightLoadingProcesses.get(tileKey);
+            HostLoaderHeight loader = heightLoadingProcesses.get(tileKey);
             if(loader.isAlive())
                 continue;
             if(loader.wasSuccessful())
@@ -102,21 +112,22 @@ class TerrainTileLoader {
         anisotropyLevel = Math.min(anisotropyLevel, maxAnisotropyA[0]);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropyLevel);
         glGenerateMipmap(GL_TEXTURE_2D);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         return new Texture2D(glTextureId, width, height);
     }
 
-    private static Texture2D createHeightMap(ByteBuffer data, int width, int height){
+    private static Texture2D createHeightMap(float[] data, int width, int height){
+
         int glTextureId = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, glTextureId);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, width, height, 0, GL_RED, GL_FLOAT, data);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         return new Texture2D(glTextureId, width, height);
     }
 
